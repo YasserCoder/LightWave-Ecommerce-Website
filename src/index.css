@@ -1,0 +1,42 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body::-webkit-scrollbar {
+    width: 10px;
+}
+
+body::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 10px;
+}
+body::-webkit-scrollbar-thumb {
+    background: rgb(21, 97, 109, 80%);
+    border-radius: 10px;
+}
+body::-webkit-scrollbar-thumb:hover {
+    background: #15616d;
+    border-radius: 10px;
+}
+.active {
+    color: #15616d;
+}
+.active + span {
+    width: 100%;
+}
+@media (max-width: 768px) {
+    #list .active {
+        margin-left: 8px;
+    }
+}
+
+#filter .active {
+    background-color: #15616d;
+    color: #fafafa;
+}
+
+.swiper-wrapper {
+    width: fit-content;
+}
