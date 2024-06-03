@@ -40,3 +40,8 @@ body::-webkit-scrollbar-thumb:hover {
 .swiper-wrapper {
     width: fit-content;
 }
+
+button.activebtn {
+    color: #15616d;
+    font-weight: 800;
+}

@@ -1,30 +1,29 @@
 import { useScreenSize } from "../hook/useScreenSize";
 import Path from "../ui/Path";
 import SideBar from "../ui/SideBar";
-// import Categories from "./../ui/Categories";
-import CategoriesV1 from "./../ui/CategoriesV1";
+import Categories from "./../ui/Categories";
 import { BsSortUp } from "react-icons/bs";
 import SortBy from "../ui/SortBy";
 import Filter from "../ui/Filter";
-import { useSearchParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 function Shop() {
     const { screenSize: isMediumScreen } = useScreenSize(1024);
-    const [searchParams] = useSearchParams();
-    const dest = ["shop"];
-    let category = searchParams.get("category");
-    if (category === "all") {
-        category = null;
-    }
-    // console.log(dest);
+    const location = useLocation();
+    const pathParts = location.pathname
+        .split("/")
+        .filter((part) => part !== "")
+        .map((e) => {
+            return e.includes("%20") ? e.replaceAll("%20", " ") : e;
+        });
+
     return (
         <>
             <div className="my-4  container">
-                {/* <Categories /> */}
-                <Path dest={[...dest, category]} />
+                <Path dest={[...pathParts]} />
                 <div className="my-6  flex flex-col gap-10 lg:flex-row">
                     {!isMediumScreen && <SideBar />}
-                    <Products category={category} />
+                    <Products category={pathParts.at(-1)} />
                 </div>
             </div>
         </>
@@ -36,13 +35,14 @@ function Products({ category, itemsNum = 12000 }) {
 
     return (
         <section className={`w-full overflow-x-hidden space-y-10`}>
-            <CategoriesV1 />
+            <Categories />
             <div className="flex justify-between items-center">
                 <div className="relative w-fit flex gap-2 sm:gap-3 items-baseline">
                     <h1 className="text-2xl sm:text-3xl font-extrabold capitalize">
-                        {category === null ? "our Products" : category}
+                        {category === "shop" || category === "all"
+                            ? "our Products"
+                            : category}
                     </h1>
-                    {/* <span className="absolute w-[40%] h-[2px] bg-bluegreen left-0 -bottom-4"></span> */}
                     <span className="text-grey text-sm sm:text-lg ">{`${itemsNum} items`}</span>
                 </div>
                 {!isSmallScreen && (

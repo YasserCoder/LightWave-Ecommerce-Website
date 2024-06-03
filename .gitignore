@@ -11,6 +11,8 @@ node_modules
 dist
 dist-ssr
 *.local
+Recyclebin.jsx
+script.js
 
 # Editor directories and files
 .vscode/*
