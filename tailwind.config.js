@@ -19,7 +19,7 @@ export default {
             },
             gridTemplateColumns: {
                 250: "repeat(auto-fill, minmax(250px, 1fr));",
-                percentage: "48% 48%",
+                220: "repeat(auto-fill, minmax(220px, 1fr));",
             },
             screens: {
                 xs: "440px",

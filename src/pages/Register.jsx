@@ -21,7 +21,7 @@ function Register() {
         setCpwd("");
     }
     return (
-        <div className="container my-4">
+        <div className="container py-4">
             <Path dest={["sign up"]} />
             <Form title={"sign up"}>
                 <InputText

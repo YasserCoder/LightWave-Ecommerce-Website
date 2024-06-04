@@ -21,7 +21,7 @@ const links = [
 ];
 function Footer() {
     return (
-        <footer className="bg-primary text-secondary w-full py-[30px] sm:pb-5 lg:pb-[40px]">
+        <footer className="bg-primary text-secondary w-full py-[30px] sm:pb-5 lg:pb-[40px] ">
             <div className="container flex flex-col gap-y-8 lg:justify-between lg:flex-row-reverse ">
                 <div className="flex flex-wrap justify-between gap-y-[30px] lg:flex-1 ">
                     <div className="space-y-[15px]">

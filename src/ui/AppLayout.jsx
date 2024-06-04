@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 
 function AppLayout() {
     const [scrollVisible, setScrollVisible] = useState(false);
+
     function handleScroll() {
         if (
             document.body.scrollTop > 50 ||
@@ -25,7 +26,7 @@ function AppLayout() {
     return (
         <>
             <Header />
-            <main className="">
+            <main className="min-h-[calc(100vh-430px)]">
                 <Outlet />
             </main>
             {scrollVisible && <ScrollTop />}

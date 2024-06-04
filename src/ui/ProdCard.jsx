@@ -51,7 +51,7 @@ function ProdCard({ name = "Product name", sale = 0, latest = false }) {
                     </span>
                     <span>bureau</span>
                 </div>
-                <div className="text-xl font-semibold uppercase flex-grow">
+                <div className="text-lg font-semibold uppercase flex-grow">
                     {name}
                 </div>
                 <div className="flex gap-2 items-baseline my-1">

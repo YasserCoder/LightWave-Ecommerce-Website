@@ -6,6 +6,8 @@ import { BsSortUp } from "react-icons/bs";
 import SortBy from "../ui/SortBy";
 import Filter from "../ui/Filter";
 import { useLocation } from "react-router-dom";
+import ProdCard from "../ui/ProdCard";
+import Pagination from "../ui/Pagination";
 
 function Shop() {
     const { screenSize: isMediumScreen } = useScreenSize(1024);
@@ -19,7 +21,7 @@ function Shop() {
 
     return (
         <>
-            <div className="my-4  container">
+            <div className="py-4  container">
                 <Path dest={[...pathParts]} />
                 <div className="my-6  flex flex-col gap-10 lg:flex-row">
                     {!isMediumScreen && <SideBar />}
@@ -100,8 +102,24 @@ function Products({ category, itemsNum = 12000 }) {
                     ]}
                 />
             )}
+            <div className="grid grid-cols-220 gap-4 px-1 xs:px-2 pb-5 lg:pb-7">
+                {Array.from({ length: 3 }, (_, index) => (
+                    <ProdCard key={index} />
+                ))}
+                {Array.from({ length: 3 }, (_, index) => (
+                    <ProdCard name="osisudhdhd dudxxc xjxuxhxc" key={index} />
+                ))}
+            </div>
+            <Pagination count={120} />
         </section>
     );
 }
+
+// function PageNumber({num}){
+//     return (
+//         <div className="rounded-sm size-10 flex justify-center items-center">{num}</div>
+//     )
+
+// }
 
 export default Shop;

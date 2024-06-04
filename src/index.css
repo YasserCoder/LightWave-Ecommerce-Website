@@ -45,3 +45,66 @@ button.activebtn {
     color: #15616d;
     font-weight: 800;
 }
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+    user-select: none;
+    width: 100%;
+    gap: 10px;
+}
+
+.page-link {
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    text-decoration: none;
+    color: #15616d;
+}
+
+.page-link:hover {
+    background-color: #f1f1f1;
+}
+
+.page-link:focus {
+    outline: none;
+}
+
+.active .page-link {
+    background-color: #15616d;
+    color: white;
+    border-color: #15616d;
+}
+
+.page-item.disabled .page-link {
+    color: #6c757d;
+    pointer-events: none;
+    cursor: default;
+}
+
+.page-navigation {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.page-nav-button {
+    margin: 0 5px;
+    padding: 10px 20px;
+    border: none;
+    background-color: #15616d;
+    color: white;
+    cursor: pointer;
+    border-radius: 0.25rem;
+}
+
+.page-nav-button:disabled {
+    background-color: #6c757d;
+    cursor: default;
+}

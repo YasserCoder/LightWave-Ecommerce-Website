@@ -11,8 +11,6 @@ import Cart from "./pages/Cart";
 import Shop from "./pages/Shop";
 
 function App() {
-    // const [count, setCount] = useState(0)
-
     return (
         <BrowserRouter>
             <Routes>
@@ -24,6 +22,7 @@ function App() {
                     <Route path="register" element={<Register />} />
                     <Route path="wishlist" element={<WishList />} />
                     <Route path="cart" element={<Cart />} />
+                    <Route path="product/:productId" element={<Cart />} />
                     <Route path="shop/*" element={<Shop />} />
                 </Route>
 

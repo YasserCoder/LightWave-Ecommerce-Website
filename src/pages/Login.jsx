@@ -15,7 +15,7 @@ function Login() {
         setEmail("");
     }
     return (
-        <div className="container my-4">
+        <div className="container py-4">
             <Path dest={["login"]} />
             <Form title={"login"}>
                 <InputText
