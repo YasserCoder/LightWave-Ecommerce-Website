@@ -9,6 +9,7 @@ import Register from "./pages/Register";
 import WishList from "./pages/WishList";
 import Cart from "./pages/Cart";
 import Shop from "./pages/Shop";
+import ProductDetails from "./pages/ProductDetails";
 
 function App() {
     return (
@@ -22,7 +23,10 @@ function App() {
                     <Route path="register" element={<Register />} />
                     <Route path="wishlist" element={<WishList />} />
                     <Route path="cart" element={<Cart />} />
-                    <Route path="product/:productId" element={<Cart />} />
+                    <Route
+                        path="product/:productId"
+                        element={<ProductDetails />}
+                    />
                     <Route path="shop/*" element={<Shop />} />
                 </Route>
 

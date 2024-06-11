@@ -1,5 +1,3 @@
-// import { useState } from "react";
-// import { FaChevronDown, FaChevronRight } from "react-icons/fa";
 import MenuItems from "./MenuItems";
 const menuData = {
     Lighting: {
@@ -112,98 +110,10 @@ const menuData = {
 
 function SideBar() {
     return (
-        <ul className="bg-secondary h-fit absolute left-0 top-28 lg:left-auto lg:sticky lg:top-4 mx-auto  rounded-lg p-2 w-full lg:w-auto lg:min-w-72 shadow-md font-medium">
-            {/* {renderMenuItems(menuData)} */}
+        <ul className="bg-secondary h-fit sticky top-4 rounded-lg p-2 w-auto min-w-72 shadow-md font-medium">
             <MenuItems categories={{ ...menuData }} />
         </ul>
     );
 }
-
-// const MenuItem = ({ label, children }) => {
-//     const [isOpen, setIsOpen] = useState(false);
-
-//     const toggleOpen = () => {
-//         setIsOpen(!isOpen);
-//     };
-//     function searchParent(event) {
-//         let path = [event.target.textContent];
-//         let btn =
-//             event.target.parentElement.parentElement.parentElement.previousElementSibling?.querySelector(
-//                 "Button"
-//             ) ||
-//             event.target.parentElement.parentElement.previousElementSibling?.querySelector(
-//                 "Button"
-//             );
-//         if (btn) {
-//             path.push(btn.textContent);
-//             while (btn) {
-//                 btn =
-//                     btn.parentElement.parentElement.parentElement.previousElementSibling?.querySelector(
-//                         "Button"
-//                     );
-//                 if (btn) path.push(btn.textContent);
-//             }
-//         }
-//         console.log(path);
-//     }
-//     return (
-//         <li className="mb-2">
-//             {children ? (
-//                 <>
-//                     <div
-//                         className="flex justify-between items-center cursor-pointer p-2 hover:bg-gray-300 rounded"
-//                         onClick={toggleOpen}
-//                     >
-//                         <button
-//                             className="hover:text-bluegreen text-start"
-//                             onClick={searchParent}
-//                         >
-//                             {label}
-//                         </button>
-
-//                         <span className="ml-2">
-//                             {isOpen ? <FaChevronDown /> : <FaChevronRight />}
-//                         </span>
-//                     </div>
-//                     {isOpen && (
-//                         <ul className="pl-4 mt-2 relative">
-//                             <span className="absolute h-full w-[2px] left-1 top-0 bg-slate-400"></span>
-//                             {children}
-//                         </ul>
-//                     )}
-//                 </>
-//             ) : (
-//                 <button
-//                     className="block p-2 hover:text-bluegreen rounded"
-//                     onClick={searchParent}
-//                 >
-//                     {label}
-//                 </button>
-//             )}
-//         </li>
-//     );
-// };
-
-// const renderMenuItems = (data) => {
-//     return Object.keys(data).map((key) => {
-//         const value = data[key];
-//         if (typeof value === "object" && !Array.isArray(value)) {
-//             return (
-//                 <MenuItem key={key} label={key}>
-//                     {renderMenuItems(value)}
-//                 </MenuItem>
-//             );
-//         } else if (Array.isArray(value)) {
-//             return (
-//                 <MenuItem key={key} label={key}>
-//                     {value.map((item) => (
-//                         <MenuItem key={item} label={item} />
-//                     ))}
-//                 </MenuItem>
-//             );
-//         }
-//         return <MenuItem key={key} label={key} />;
-//     });
-// };
 
 export default SideBar;

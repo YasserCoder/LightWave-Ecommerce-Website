@@ -64,8 +64,8 @@ function OurBrands() {
 function Anouncement({ title, latest, sale, dest }) {
     return (
         <Section title={title}>
-            <div className="grid grid-cols-250 gap-4 mb-10 lg:mb-16">
-                {Array.from({ length: 2 }, (_, index) => (
+            <div className="grid grid-cols-220 gap-4 mb-10 lg:mb-16">
+                {Array.from({ length: 3 }, (_, index) => (
                     <ProdCard key={index} latest={latest} sale={sale} />
                 ))}
                 {Array.from({ length: 2 }, (_, index) => (

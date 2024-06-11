@@ -18,8 +18,8 @@ export default {
                 hovercol: "#cedfe1",
             },
             gridTemplateColumns: {
-                250: "repeat(auto-fill, minmax(250px, 1fr));",
                 220: "repeat(auto-fill, minmax(220px, 1fr));",
+                200: "repeat(auto-fill, minmax(200px, 1fr));",
             },
             screens: {
                 xs: "440px",

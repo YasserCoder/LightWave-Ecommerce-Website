@@ -1,12 +1,17 @@
 import { FaAngleRight } from "react-icons/fa";
+import { FaHouse } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 
 function Path({ dest = [] }) {
     return (
         <div className="flex gap-1 text-sm items-center whitespace-nowrap overflow-x-auto ">
             <span>
-                <Link to={"/home"} className="capitalize text-[#b1b1b1]">
-                    Home
+                <Link
+                    to={"/home"}
+                    className="capitalize text-[#b1b1b1] flex gap-1 items-center"
+                >
+                    <FaHouse />
+                    <span>Home</span>
                 </Link>
             </span>
             {dest.map((e, i) => {

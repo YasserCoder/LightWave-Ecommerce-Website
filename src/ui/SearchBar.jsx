@@ -11,21 +11,21 @@ function SearchBar() {
         console.log("search");
     }
     return (
-        <form className="flex items-center">
+        <form className="flex items-center flex-1  md:flex-auto">
             <input
                 type="text"
                 value={value}
                 onChange={(e) => {
                     setValue(e.target.value);
                 }}
-                className="py-[10px] pl-3 bg-secondary rounded-sm outline-bluegreen w-[200px] sm:w-[320px] xl:w-[400px] "
+                className="py-[10px] pl-3 bg-secondary rounded-sm outline-bluegreen w-full md:w-[320px] xl:w-[400px] "
                 placeholder="Enter product name"
             />
             <Button
-                btnstyle=" px-3 sm:px-[19px] rounded-1"
+                btnstyle=" px-3 sm:px-[19px] rounded-1 "
                 handle={handleSearch}
             >
-                {isSmallScreen ? <FaSearch /> : "Search"}
+                {isSmallScreen ? <FaSearch className="text-2xl" /> : "Search"}
             </Button>
         </form>
     );

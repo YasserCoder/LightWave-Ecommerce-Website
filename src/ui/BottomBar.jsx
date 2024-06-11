@@ -17,9 +17,9 @@ function BottomBar() {
     }
 
     return (
-        <div className="relative py-5  w-full container">
+        <div className="relative py-5 w-full container">
             {isSmallScreen && (
-                <div className="flex justify-between items-center">
+                <div className="flex gap-x-8 sm:gap-x-32 items-center">
                     <MenuBar
                         checked={checked}
                         handleChecked={handleChecked}
