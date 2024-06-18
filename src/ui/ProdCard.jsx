@@ -1,11 +1,14 @@
-import { FaAngleRight, FaCartPlus } from "react-icons/fa6";
-import chandlier from "../assets/chandlier.png";
-import newicon from "../assets/new.png";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import LikeBtn from "./LikeBtn";
 import { calculateNewPrice } from "../utils/helpers";
+
+import LikeBtn from "./LikeBtn";
+
+import { FaAngleRight, FaCartPlus } from "react-icons/fa6";
 import { FaRegEye } from "react-icons/fa";
+
+import chandlier from "../assets/chandlier.png";
+import newicon from "../assets/new.png";
 function ProdCard({
     name = "Product name",
     price = 120,
@@ -30,19 +33,6 @@ function ProdCard({
                         className="object-contain"
                     />
                 </Link>
-
-                {/* {!soldOut && (
-                    <span className="absolute right-3 bottom-3">
-                        <LikeBtn
-                            size={25}
-                            like={like}
-                            setLike={handleChecked}
-                        />
-                    </span>
-                )} */}
-                {/* <Link to={"/product/1"} className="absolute left-3 bottom-3 ">
-                    <FaRegEye className="size-[25px] " />
-                </Link> */}
                 {latest && (
                     <span className="absolute size-[40px] left-2 top-2">
                         <img src={newicon} alt="new" />
@@ -87,14 +77,6 @@ function ProdCard({
                 </div>
             </div>
             <div className="px-9 sm:px-6 py-2 flex justify-between items-center">
-                {/* <Link className="flex justify-center items-center gap-3 text-xl text-bluegreen hover:scale-105 duration-300">
-                    <span>
-                        <FaCartPlus />
-                    </span>
-
-                    <span className="capitalize">add to cart</span>
-                </Link> */}
-
                 <Link
                     to={"/product/1"}
                     className=" text-bluegreen hover:scale-105 duration-300"
