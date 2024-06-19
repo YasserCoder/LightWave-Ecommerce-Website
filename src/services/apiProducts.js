@@ -7,7 +7,7 @@ export async function getProductInfo(prodId) {
         .eq("id", prodId);
     if (error) {
         console.error(error);
-        throw new Error("Products could not be loaded");
+        throw new Error("Product could not be loaded");
     }
     const category = await getCategoryPath(data[0].categoryId);
     const specifications = await getSpecifications(data[0].id);
@@ -33,7 +33,7 @@ async function getCategoryPath(prodId) {
             .eq("id", id);
         if (error) {
             console.error(error);
-            throw new Error("Categories could not be loaded");
+            throw new Error("Categories's path could not be loaded");
         }
 
         catsPath.push(data[0].name);
@@ -74,7 +74,7 @@ async function getImages(prodId) {
         .eq("productId", prodId);
     if (error) {
         console.error(error);
-        throw new Error("Imagess could not be loaded");
+        throw new Error("Images could not be loaded");
     }
 
     return data;

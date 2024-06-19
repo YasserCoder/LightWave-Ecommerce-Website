@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
+
+import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 
 function MenuItems({ categories = {} }) {
     return Object.keys(categories).map((key) => {
@@ -58,7 +59,6 @@ const MenuItem = ({ label, children }) => {
                 }
             }
         }
-        console.log(path);
         navigate(`${path.reverse().join("/")}`);
     }
     useEffect(() => {
@@ -100,7 +100,7 @@ const MenuItem = ({ label, children }) => {
                         </span>
                     </div>
                     {isOpen && (
-                        <ul className="pl-4 mt-2 relative">
+                        <ul className="pl-4 mt-2 relative z-40">
                             <span className="absolute h-full w-[2px] left-1 top-0 bg-slate-400"></span>
                             {children}
                         </ul>

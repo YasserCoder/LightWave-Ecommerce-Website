@@ -1,5 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
@@ -9,7 +8,7 @@ import "swiper/css/navigation";
 import "swiper/css/thumbs";
 
 import { calculateNewPrice } from "../utils/helpers";
-import { getProductInfo } from "../services/apiProducts";
+import { useProductDetails } from "../hook/useProductDetails";
 
 import Path from "../ui/Path";
 import Loader from "../ui/Loader";
@@ -18,43 +17,11 @@ import Section from "../ui/Section";
 import LikeBtn from "../ui/LikeBtn";
 import ProdCard from "../ui/ProdCard";
 import Services from "../ui/Services";
+import CategoryPath from "../ui/CategoryPath";
 
-import { FaAngleRight } from "react-icons/fa";
-import { IoIosPricetag } from "react-icons/io";
 import { FaCartPlus } from "react-icons/fa6";
 import { IoBagCheckOutline } from "react-icons/io5";
 
-// import imgone from "../assets/prod2/img1.webp";
-// import imgtwo from "../assets/prod2/img2.webp";
-// import imgthree from "../assets/prod2/img3.webp";
-// import imgfour from "../assets/prod2/img4.webp";
-
-// const imgs = [
-//     { img: imgone, alt: "img1" },
-//     { img: imgtwo, alt: "img2" },
-//     { img: imgthree, alt: "img3" },
-//     { img: imgfour, alt: "img4" },
-// ];
-
-// const infoobj = {
-//     imgs,
-//     name: "3 in 1 flashlight, office and camping 180 adjustable, 3 modes, rechargeable with external battery function",
-//     description:
-//         "Multi-function LED Camping Lamp Outdoor Hiking Flashlight USB Rechargeable Indoor Table Lamp Emergency Power Bank",
-//     brand: "Beetro",
-//     specifications: [
-//         "Power : 5W",
-//         "dimensions: 15x30 cm",
-//         "batterie : 6 hours",
-//         "colors : green , red , yellow",
-//         "lighting : white",
-//     ],
-//     category: ["Lighting", "Lamps", "Desk Lamps"],
-//     delivery: true,
-//     price: 33,
-//     garantee: "1 month",
-//     sale: 12,
-// };
 function ProductDetails() {
     const [like, setLike] = useState(false);
     const [qte, setQte] = useState(1);
@@ -67,10 +34,7 @@ function ProductDetails() {
     const pathSegments = location.pathname.split("/").filter(Boolean);
     const productId = Number(pathSegments[pathSegments.length - 1]);
 
-    const { isLoading, data: productInfo } = useQuery({
-        queryKey: ["Product", productId],
-        queryFn: () => getProductInfo(productId),
-    });
+    const { isLoading, productInfo } = useProductDetails(productId);
 
     const {
         brand,
@@ -95,35 +59,7 @@ function ProductDetails() {
                     <ProdImg imgs={imgs} />
                     <div className="flex flex-col gap-y-3 ">
                         <div className="flex gap-2 items-center text-grey">
-                            {category.map((e, i) => {
-                                return (
-                                    <p
-                                        key={i}
-                                        className="flex gap-1 items-center"
-                                    >
-                                        {i === 0 && (
-                                            <span>
-                                                <IoIosPricetag />
-                                            </span>
-                                        )}
-
-                                        <Link
-                                            to={`/shop/${category
-                                                .slice(0, i + 1)
-                                                .join("/")}`}
-                                            className="capitalize hover:font-semibold duration-300"
-                                        >
-                                            {e}
-                                        </Link>
-
-                                        {category.length !== i + 1 && (
-                                            <span>
-                                                <FaAngleRight />
-                                            </span>
-                                        )}
-                                    </p>
-                                );
-                            })}
+                            <CategoryPath category={category} />
                         </div>
                         <p className="text-3xl font-bold">{name}</p>
                         <p className="capitalize flex gap-2 font-medium">
@@ -248,13 +184,10 @@ function ProductDetails() {
             <Section title="similar products">
                 <div className="grid grid-cols-200 gap-4 ">
                     {Array.from({ length: 3 }, (_, index) => (
-                        <ProdCard key={index} />
+                        <ProdCard key={index} id={1} />
                     ))}
                     {Array.from({ length: 2 }, (_, index) => (
-                        <ProdCard
-                            name="osisudhdhd dudxxc xjxuxhxc"
-                            key={index}
-                        />
+                        <ProdCard key={index} id={1} />
                     ))}
                 </div>
             </Section>

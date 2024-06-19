@@ -1,125 +1,18 @@
 import { useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+
+import MenuItems from "./MenuItems";
+
 import {
     FaAngleLeft,
     FaAngleRight,
     FaChevronDown,
     FaChevronUp,
 } from "react-icons/fa";
-import { useLocation, useNavigate } from "react-router-dom";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
-import MenuItems from "./MenuItems";
 
-const cats = {
-    Lighting: {
-        Lamps: ["Table Lamps", "Floor Lamps", "Desk Lamps", "Reading Lamps"],
-        "Ceiling Lights": [
-            "Chandeliers",
-            "Pendant Lights",
-            "Flush Mount Lights",
-            "Semi-Flush Mount Lights",
-            "Recessed Lighting",
-        ],
-        "Wall Lights": ["Wall Sconces", "Picture Lights", "Bath/Vanity Lights"],
-        "Outdoor Lighting": [
-            "Outdoor Wall Lights",
-            "Outdoor Ceiling Lights",
-            "Landscape Lighting",
-            "Solar Lights",
-        ],
-    },
-    "Cables and Wires": {
-        "Electrical Cables": [
-            "Power Cables",
-            "Control Cables",
-            "Data Cables",
-            "Coaxial Cables",
-        ],
-        Wires: [
-            "Copper Wires",
-            "Aluminum Wires",
-            "Armored Wires",
-            "Hook-Up Wires",
-        ],
-        "Cable Accessories": [
-            "Cable Ties",
-            "Cable Clips",
-            "Cable Sleeves",
-            "Cable Connectors",
-        ],
-    },
-    "Electrical Components": {
-        "Switches and Sockets": [
-            "Wall Switches",
-            "Dimmer Switches",
-            "Smart Switches",
-            "Wall Sockets",
-            "USB Sockets",
-            "Surge Protectors",
-        ],
-        "Circuit Protection": [
-            "Circuit Breakers",
-            "Fuses",
-            "RCDs (Residual Current Devices)",
-        ],
-        Transformers: [
-            "Power Transformers",
-            "Isolation Transformers",
-            "Step-Up/Step-Down Transformers",
-        ],
-    },
-    "Tools and Instruments": {
-        "Hand Tools": ["Screwdrivers", "Pliers", "Wire Strippers"],
-        "Power Tools": ["Drills", "Saws", "Heat Guns"],
-        "Testing Instruments": [
-            "Multimeters",
-            "Voltage Testers",
-            "Clamp Meters",
-        ],
-    },
-    "Home Automation": {
-        "Smart Lighting": ["Smart Bulbs", "Smart Light Strips"],
-        "Smart Switches and Plugs": ["Smart Switches", "Smart Plugs"],
-        Sensors: ["Motion Sensors", "Light Sensors", "Smoke Detectors"],
-    },
-    "Heating and Cooling": {
-        Fans: ["Ceiling Fans", "Portable Fans", "Exhaust Fans"],
-        Heaters: ["Space Heaters", "Radiant Heaters", "Baseboard Heaters"],
-        "Air Conditioners": [
-            "Window AC Units",
-            "Portable AC Units",
-            "Split AC Units",
-        ],
-    },
-    "Batteries and Chargers": {
-        Batteries: [
-            "AA/AAA Batteries",
-            "Rechargeable Batteries",
-            "Specialty Batteries (Lithium, Alkaline)",
-        ],
-        Chargers: ["Battery Chargers", "USB Chargers", "Wireless Chargers"],
-    },
-    "Accessories and Consumables": {
-        "Light Bulbs": [
-            "LED Bulbs",
-            "Halogen Bulbs",
-            "Incandescent Bulbs",
-            "Fluorescent Tubes",
-        ],
-        "Electrical Tapes and Insulators": [
-            "Electrical Tape",
-            "Heat Shrink Tubing",
-            "Insulation Tape",
-        ],
-        "Adapters and Converters": [
-            "Plug Adapters",
-            "Voltage Converters",
-            "USB Adapters",
-        ],
-    },
-};
-
-function CategoriesV1() {
+function Categories({ cats }) {
     const prevRef = useRef(null);
     const nextRef = useRef(null);
     const [isBeginning, setIsBeginning] = useState(true);
@@ -213,6 +106,7 @@ function CategoriesV1() {
                                             handleItemClick(e);
                                         }}
                                         setOpenItem={setOpenItem}
+                                        cats={cats}
                                     />
                                 </SwiperSlide>
                             );
@@ -232,7 +126,13 @@ function CategoriesV1() {
     );
 }
 
-const CategoryItem = ({ category, isOpen, handleItemClick, setOpenItem }) => {
+const CategoryItem = ({
+    category,
+    isOpen,
+    handleItemClick,
+    setOpenItem,
+    cats,
+}) => {
     const navigate = useNavigate();
     const location = useLocation();
     const pathParts = location.pathname
@@ -279,7 +179,7 @@ const CategoryItem = ({ category, isOpen, handleItemClick, setOpenItem }) => {
 
             {isOpen && category !== "all" && (
                 <ul
-                    className="bg-secondary h-fit absolute z-30 left-[50%] translate-x-[-50%] top-[calc(100%+22px)] rounded-lg p-2 w-48 xs:w-56 shadow-md font-medium"
+                    className="bg-secondary h-fit absolute z-40 left-[50%] translate-x-[-50%] top-[calc(100%+22px)] rounded-lg p-2 w-48 xs:w-56 shadow-md font-medium"
                     onClick={handleMenuClick}
                 >
                     <MenuItems categories={cats[category]} />
@@ -303,4 +203,4 @@ const CategoryItem = ({ category, isOpen, handleItemClick, setOpenItem }) => {
     );
 };
 
-export default CategoriesV1;
+export default Categories;

@@ -1,13 +1,18 @@
+import { useLocation } from "react-router-dom";
+
 import { useScreenSize } from "../hook/useScreenSize";
+import { useCategories } from "../hook/useCategories";
+
 import Path from "../ui/Path";
 import SideBar from "../ui/SideBar";
 import Categories from "./../ui/Categories";
-import { BsSortUp } from "react-icons/bs";
 import SortBy from "../ui/SortBy";
 import Filter from "../ui/Filter";
-import { useLocation } from "react-router-dom";
 import ProdCard from "../ui/ProdCard";
 import Pagination from "../ui/Pagination";
+import Loader from "../ui/Loader";
+
+import { BsSortUp } from "react-icons/bs";
 
 function Shop() {
     const { screenSize: isMediumScreen } = useScreenSize(1024);
@@ -19,23 +24,27 @@ function Shop() {
             return e.includes("%20") ? e.replaceAll("%20", " ") : e;
         });
 
+    const { isLoading, cats } = useCategories();
+
+    if (isLoading) return <Loader />;
+
     return (
         <div className="py-4  container">
             <Path dest={[...pathParts]} />
             <div className="my-6  flex flex-col gap-10 lg:flex-row">
-                {!isMediumScreen && <SideBar />}
-                <Products category={pathParts.at(-1)} />
+                {!isMediumScreen && <SideBar cats={cats} />}
+                <Products category={pathParts.at(-1)} cats={cats} />
             </div>
         </div>
     );
 }
 
-function Products({ category, itemsNum = 12000 }) {
+function Products({ category, itemsNum = 12000, cats }) {
     const { screenSize: isSmallScreen } = useScreenSize(540);
 
     return (
         <section className={`w-full overflow-x-hidden space-y-10`}>
-            <Categories />
+            <Categories cats={cats} />
             <div className="flex justify-between items-center">
                 <div className="relative w-fit flex gap-2 sm:gap-3 items-baseline">
                     <h1 className="text-2xl sm:text-3xl font-extrabold capitalize">
@@ -102,11 +111,12 @@ function Products({ category, itemsNum = 12000 }) {
             )}
             <div className="grid grid-cols-200 gap-2 px-1 xs:px-2 pb-5 lg:pb-7">
                 {Array.from({ length: 3 }, (_, index) => (
-                    <ProdCard key={index} soldOut={true} />
+                    <ProdCard key={index} id={1} />
                 ))}
                 {Array.from({ length: 3 }, (_, index) => (
                     <ProdCard
-                        name="osisudhdhd dudxxc xjxuxhxc isixwiux _swxxu uwxuxwhy swuxb"
+                        // name="osisudhdhd dudxxc xjxuxhxc isixwiux _swxxu uwxuxwhy swuxb"
+                        id={1}
                         key={index}
                     />
                 ))}

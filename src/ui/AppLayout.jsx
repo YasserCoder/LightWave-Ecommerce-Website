@@ -1,11 +1,17 @@
+import { useEffect, useState } from "react";
+import { Outlet, useLocation } from "react-router-dom";
+
 import Header from "./Header";
 import Footer from "./Footer";
-import { Outlet } from "react-router-dom";
 import ScrollTop from "./ScrollTop";
-import { useEffect, useState } from "react";
 
 function AppLayout() {
     const [scrollVisible, setScrollVisible] = useState(false);
+    const pathName = useLocation();
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pathName]);
 
     function handleScroll() {
         if (
@@ -23,6 +29,7 @@ function AppLayout() {
             window.removeEventListener("scroll", handleScroll);
         };
     }, []);
+
     return (
         <>
             <Header />

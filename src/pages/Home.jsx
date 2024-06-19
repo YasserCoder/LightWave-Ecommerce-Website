@@ -30,7 +30,7 @@ function Home() {
                 latest={true}
                 dest="latest"
             />
-            <Anouncement title={"sale products"} sale={22} dest="sale" />
+            <Anouncement title={"sale products"} dest="sale" />
             <BestDeals />
             <OurBrands />
         </>
@@ -61,20 +61,15 @@ function OurBrands() {
     );
 }
 
-function Anouncement({ title, latest, sale, dest }) {
+function Anouncement({ title, latest, dest }) {
     return (
         <Section title={title}>
             <div className="grid grid-cols-220 gap-4 mb-10 lg:mb-16">
                 {Array.from({ length: 3 }, (_, index) => (
-                    <ProdCard key={index} latest={latest} sale={sale} />
+                    <ProdCard key={index} latest={latest} id={1} />
                 ))}
                 {Array.from({ length: 2 }, (_, index) => (
-                    <ProdCard
-                        name="osisudhdhd dudxxc xjxuxhxc"
-                        key={index}
-                        latest={latest}
-                        sale={sale}
-                    />
+                    <ProdCard key={index} latest={latest} id={1} />
                 ))}
             </div>
             <div className="mx-auto w-fit">
