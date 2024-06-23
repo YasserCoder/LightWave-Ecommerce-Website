@@ -1,11 +1,9 @@
 function Section({ title, padding = true, children }) {
     return (
         <section
-            className={
-                padding
-                    ? `py-[40px] md:py-[60px] xl:py-[90px] w-full container`
-                    : `w-full container`
-            }
+            className={`w-full container ${
+                padding ? "py-[40px] md:py-[60px] xl:py-[90px]" : ""
+            }`}
         >
             <div className="relative mx-auto w-fit mb-20">
                 <h1 className="text-3xl sm:text-4xl font-extrabold capitalize">

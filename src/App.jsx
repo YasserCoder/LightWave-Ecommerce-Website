@@ -12,6 +12,8 @@ import WishList from "./pages/WishList";
 import Cart from "./pages/Cart";
 import Shop from "./pages/Shop";
 import ProductDetails from "./pages/ProductDetails";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -38,6 +40,17 @@ function App() {
                         <Route path="register" element={<Register />} />
                         <Route path="wishlist" element={<WishList />} />
                         <Route path="cart" element={<Cart />} />
+                        <Route path="about">
+                            <Route
+                                index
+                                element={<Navigate replace to="whoarewe" />}
+                            />
+                            <Route path="whoarewe" element={<About />} />
+                            <Route path="payment" element={<About />} />
+                            <Route path="delivery" element={<About />} />
+                            <Route path="garantee" element={<About />} />
+                        </Route>
+                        <Route path="contact" element={<Contact />} />
                         <Route
                             path="product/:productId"
                             element={<ProductDetails />}

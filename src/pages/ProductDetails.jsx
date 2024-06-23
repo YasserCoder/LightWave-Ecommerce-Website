@@ -191,7 +191,9 @@ function ProductDetails() {
                     ))}
                 </div>
             </Section>
-            <Services />
+            <Section title={"Our Services"}>
+                <Services />
+            </Section>
         </>
     );
 }

@@ -32,6 +32,11 @@ body::-webkit-scrollbar-thumb:hover {
     }
 }
 
+.activeSection ~ li {
+    background-color: #15616d;
+    color: #fafafa;
+}
+
 #filter .active {
     background-color: #15616d;
     color: #fafafa;

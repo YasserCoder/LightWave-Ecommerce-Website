@@ -8,7 +8,7 @@ function Path({ dest = [] }) {
             <span>
                 <Link
                     to={"/home"}
-                    className="capitalize text-[#b1b1b1] flex gap-1 items-center"
+                    className="capitalize text-[#b1b1b1] flex gap-1 items-center hover:font-semibold"
                 >
                     <FaHouse />
                     <span>Home</span>
@@ -27,7 +27,7 @@ function Path({ dest = [] }) {
                             ) : (
                                 <Link
                                     to={`/${dest.slice(0, i + 1).join("/")}`}
-                                    className="capitalize"
+                                    className="capitalize hover:font-semibold"
                                 >
                                     {e}
                                 </Link>

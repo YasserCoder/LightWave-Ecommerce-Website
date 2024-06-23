@@ -1,9 +1,15 @@
+import { useRef } from "react";
 import { Link } from "react-router-dom";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+
+import "swiper/css";
+import styles from "../ui/brands.module.css";
+
 import Hero from "../ui/Hero";
 import ProdCard from "../ui/ProdCard";
 import Section from "../ui/Section";
 import Services from "../ui/Services";
-import { Swiper, SwiperSlide } from "swiper/react";
 import anounnce from "../assets/Anounnce.jpg";
 import beetro from "../assets/brands/Beetro.png";
 import bms from "../assets/brands/BMS.png";
@@ -12,11 +18,6 @@ import energical from "../assets/brands/energical.png";
 import legrand from "../assets/brands/legrand.svg";
 import philips from "../assets/brands/philips.svg";
 
-import "swiper/css";
-import styles from "../ui/brands.module.css";
-
-import { Navigation } from "swiper/modules";
-import { useRef } from "react";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
 import { MdOpenInNew } from "react-icons/md";
 
@@ -24,7 +25,9 @@ function Home() {
     return (
         <>
             <Hero />
-            <Services />
+            <Section title={"Our Services"}>
+                <Services />
+            </Section>
             <Anouncement
                 title={"latest products"}
                 latest={true}

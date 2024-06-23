@@ -40,7 +40,7 @@ function BottomBar() {
                         return (
                             <li key={e} className="group relative">
                                 <NavLink
-                                    to={`/${e}`}
+                                    to={`/${e.split(" ")[0]}`}
                                     className={
                                         "hover:text-bluegreen duration-700 capitalize"
                                     }

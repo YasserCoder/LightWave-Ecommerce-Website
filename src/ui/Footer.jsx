@@ -56,7 +56,7 @@ function Footer() {
                                 <span>
                                     <FaRegEnvelope />
                                 </span>
-                                <span>lightwave24@gmail.com</span>
+                                <span>lightwave08@gmail.com</span>
                             </li>
                             <li className="flex items-center gap-x-2">
                                 <span>
