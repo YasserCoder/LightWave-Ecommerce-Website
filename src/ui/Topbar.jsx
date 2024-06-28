@@ -1,6 +1,10 @@
-import { FaPhone, FaRegClock } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useUser } from "../hook/useUser";
+import { FaPhone, FaRegClock } from "react-icons/fa";
+
 function Topbar() {
+    const { user } = useUser();
+
     return (
         <div className="bg-primary text-secondary w-full py-4">
             <div className="container flex flex-col items-center gap-y-2 sm:flex-row sm:justify-between">
@@ -14,7 +18,9 @@ function Topbar() {
                         <span>0524245824 | 0661637497</span>
                     </div>
                 </div>
-                <div className="flex gap-4 items-center font-bold md:text-lg md:font-medium">
+
+                <div className="flex gap-3 items-center font-bold md:text-lg md:font-medium">
+                    {user?.role === "authenticated" && <span>new</span>}
                     <Link to={"/login"} className="hover:underline">
                         Login
                     </Link>

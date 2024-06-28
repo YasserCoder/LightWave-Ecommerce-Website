@@ -1,24 +1,58 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
+
+import { useSignUp } from "../hook/useSignUp";
+
 import InputText from "../ui/InputText";
 import Path from "../ui/Path";
 import Form from "../ui/Form";
 import Button from "../ui/Button";
-import { Link } from "react-router-dom";
+
+const phoneRegex =
+    /^\+?(\d{1,3})?[-.\s]?\(?\d{1,4}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
+const isWhitespace = (str) => /^\s*$/.test(str);
 
 function Register() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
-    const [pwd, setPwd] = useState("");
-    const [cpwd, setCpwd] = useState("");
+    const [password, setPassword] = useState("");
+    const [cpassword, setCpassword] = useState("");
+    const [error, setError] = useState("");
+
+    const { signup, isLoading } = useSignUp();
     function handleSubmit(e) {
         e.preventDefault();
-        console.log("submit");
-        setName("");
-        setPwd("");
-        setPhone("");
-        setEmail("");
-        setCpwd("");
+        if (!name || !password || !phone || !email) {
+            setError("fill all the cases");
+            return;
+        }
+        if (isWhitespace(name) || !isNaN(name) || name.length < 6) {
+            setError("Invalide name");
+            return;
+        }
+
+        if (!phoneRegex.test(phone)) {
+            setError("Invalid phone number");
+            return;
+        }
+        if (password !== cpassword) {
+            setError("Passwords do not match");
+            return;
+        }
+
+        signup(
+            { email, password, name, phone },
+            {
+                onSettled: () => {
+                    setName("");
+                    setPassword("");
+                    setPhone("");
+                    setEmail("");
+                    setCpassword("");
+                },
+            }
+        );
     }
     return (
         <div className="container py-4">
@@ -43,19 +77,24 @@ function Register() {
                 <InputText
                     label="password"
                     type="password"
-                    value={pwd}
-                    handleChange={setPwd}
+                    value={password}
+                    handleChange={setPassword}
                 />
                 <InputText
                     label="Confirm password"
                     type="password"
-                    value={cpwd}
-                    handleChange={setCpwd}
+                    value={cpassword}
+                    handleChange={setCpassword}
                 />
+                {error && (
+                    <p className="self-start text-red-600 ">{`**${error}`}</p>
+                )}
                 <div className="self-start">
                     <Button
                         btnstyle=" px-[28px] rounded-1"
                         handle={handleSubmit}
+                        state={isLoading}
+                        submit={true}
                     >
                         Sign up
                     </Button>

@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 
 import { useScreenSize } from "../hook/useScreenSize";
 import { useCategories } from "../hook/useCategories";
@@ -13,6 +13,7 @@ import Pagination from "../ui/Pagination";
 import Loader from "../ui/Loader";
 
 import { BsSortUp } from "react-icons/bs";
+import { MdSearchOff } from "react-icons/md";
 
 function Shop() {
     const { screenSize: isMediumScreen } = useScreenSize(1024);
@@ -41,8 +42,10 @@ function Shop() {
 
 function Products({ category, itemsNum = 12000, cats }) {
     const { screenSize: isSmallScreen } = useScreenSize(540);
+    const [searchParams] = useSearchParams();
+    const query = searchParams.get("q");
 
-    return (
+    return !query ? (
         <section className={`w-full overflow-x-hidden space-y-10`}>
             <Categories cats={cats} />
             <div className="flex justify-between items-center">
@@ -123,6 +126,22 @@ function Products({ category, itemsNum = 12000, cats }) {
             </div>
             <Pagination count={120} />
         </section>
+    ) : (
+        <ItemNotFound query={query} />
+    );
+}
+
+function ItemNotFound({ query }) {
+    return (
+        <div className="w-full flex flex-col justify-center items-center gap-y-5">
+            <MdSearchOff className="size-[160px] text-bluegreen opacity-60 " />
+            <h3 className="text-3xl capitalize font-bold pt-5">
+                product not found
+            </h3>
+            <p className="max-w-[170px] text-center">
+                {`there is no product named ${query}`}
+            </p>
+        </div>
     );
 }
 

@@ -94,6 +94,7 @@ function Form() {
                 <Button
                     btnstyle=" px-[28px] rounded-xl capitalize"
                     handle={handleSubmit}
+                    submit={true}
                 >
                     send
                 </Button>

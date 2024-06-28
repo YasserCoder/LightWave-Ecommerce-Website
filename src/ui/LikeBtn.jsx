@@ -1,14 +1,28 @@
+import toast from "react-hot-toast";
+import { useUser } from "../hook/useUser";
 import styles from "./likebtn.module.css";
 
 function LikeBtn({ like, setLike, size, disabled = false }) {
+    const { user } = useUser();
+    function handleLike(e) {
+        if (user?.role === "authenticated") {
+            setLike(e);
+
+            if (e.target.checked) {
+                toast.success("product has been add to wishlist");
+            } else {
+                toast.error("product has been droped from wishlist");
+            }
+        } else {
+            alert("you have to login to add this product to the wishlist");
+        }
+    }
     return (
         <div className={`${styles.heartContainer} size-[${size}px]`}>
             <input
                 type="checkbox"
                 checked={like}
-                onChange={(e) => {
-                    setLike(e);
-                }}
+                onChange={handleLike}
                 className={`${styles.checkbox} ${
                     disabled ? "cursor-auto" : "cursor-pointer"
                 }`}
