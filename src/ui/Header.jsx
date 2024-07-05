@@ -1,5 +1,4 @@
 import BottomBar from "./BottomBar";
-// import Categories from "./Categories";
 import Navbar from "./Navbar";
 import Topbar from "./Topbar";
 
@@ -9,7 +8,6 @@ function Header() {
             <Topbar />
             <Navbar />
             <BottomBar />
-            {/* <Categories /> */}
         </header>
     );
 }

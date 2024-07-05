@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-import { useSignUp } from "../hook/useSignUp";
+import { useSignUp } from "../hook/auth/useSignUp";
 
 import InputText from "../ui/InputText";
 import Path from "../ui/Path";

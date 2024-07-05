@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 
-import { useUser } from "../hook/useUser";
-import { useLogout } from "../hook/useLogout";
+import { useUser } from "../hook/auth/useUser";
+import { useLogout } from "../hook/auth/useLogout";
 
 import SearchBar from "./SearchBar";
 import Button from "./Button";
@@ -12,8 +12,12 @@ import logo from "../assets/logo.png";
 import { FaHeart, FaRegEye } from "react-icons/fa";
 import { FaCartShopping, FaUser } from "react-icons/fa6";
 import { VscSignOut } from "react-icons/vsc";
+import { useGetCartItems } from "../hook/cart/useGetCartItems";
 
 function Navbar() {
+    const { isLoading: isConnecting, user } = useUser();
+    const { isLoading, cartItems } = useGetCartItems(user?.id);
+
     return (
         <nav className="container flex items-center justify-between py-5 border-b border-[#e1e1e1]">
             <div>
@@ -26,7 +30,7 @@ function Navbar() {
             </div>
             <ul className="flex gap-4 items-center md:gap-2 lg:gap-4 ">
                 <li className="group relative">
-                    <UserIcon />
+                    <UserIcon user={user} isConnecting={isConnecting} />
                     <span className="absolute w-0 h-[2px] -bottom-2 left-0 bg-bluegreen duration-300 group-hover:w-full"></span>
                 </li>
                 <li className="group relative">
@@ -41,9 +45,13 @@ function Navbar() {
                 <li className="group relative">
                     <NavLink
                         to={"/cart"}
-                        className="hover:text-bluegreen duration-700"
+                        className="hover:text-bluegreen duration-700 flex items-center"
                     >
                         <FaCartShopping className="size-5" />
+                        <span className="text-xl">{`(${
+                            isLoading || isConnecting ? "" : cartItems?.length
+                        })`}</span>
+                        {/* <span>{cartItems.}</span> */}
                     </NavLink>
                     <span className="absolute w-0 h-[2px] -bottom-2 left-0 bg-bluegreen duration-300 group-hover:w-full"></span>
                 </li>
@@ -52,10 +60,9 @@ function Navbar() {
     );
 }
 
-function UserIcon() {
+function UserIcon({ isConnecting, user }) {
     const [open, setOpen] = useState(false);
     const menuRef = useRef(null);
-    const { isLoading, user } = useUser();
     const { pathname } = useLocation();
     const isActive =
         pathname.split("/").includes("login") ||
@@ -93,7 +100,7 @@ function UserIcon() {
                     className="absolute top-10 z-30 -right-[70px] bg-[#e5e5e5] shadow-xl border-[#BDBDBD] rounded-md py-6 px-4 flex flex-col items-center gap-y-5 text-nowrap"
                     ref={menuRef}
                 >
-                    {isLoading && <Loader />}
+                    {isConnecting && <Loader />}
                     {user?.role === "authenticated" ? (
                         <AuthenicatedUser handleOpen={setOpen} user={user} />
                     ) : (

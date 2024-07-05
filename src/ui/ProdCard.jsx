@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { calculateNewPrice } from "../utils/helpers";
 import { useProductDetails } from "../hook/useProductDetails";
+import { useUser } from "../hook/auth/useUser";
+import { useAddCartItem } from "../hook/cart/useAddCartItem";
 
 import LikeBtn from "./LikeBtn";
 import Loader from "./Loader";
@@ -19,6 +21,9 @@ function ProdCard({ latest = false, id }) {
 
     const { isLoading, productInfo } = useProductDetails(id);
     const { name, price, sale, soldOut, category, imgs } = { ...productInfo };
+
+    const { isLoading: isConnecting, user } = useUser();
+    const { isInserting, addCartItem } = useAddCartItem();
 
     if (isLoading) return <Loader />;
 
@@ -56,11 +61,6 @@ function ProdCard({ latest = false, id }) {
             </div>
             <div className="flex flex-col gap-1 px-4 py-2 border-y flex-grow ">
                 <div className="flex gap-[2px] text-grey items-center text-xs capitalize whitespace-nowrap overflow-hidden text-ellipsis">
-                    {/* <span>lamps</span>
-                    <span className="text-xs">
-                        <FaAngleRight />
-                    </span>
-                    <span>bureau</span> */}
                     <CategoryPath category={category} />
                 </div>
                 <Link
@@ -99,11 +99,24 @@ function ProdCard({ latest = false, id }) {
                     disabled={soldOut}
                 />
                 <span className="w-[2px] h-6 bg-grey"></span>
-                <Link className=" text-bluegreen hover:scale-105 duration-300">
+                <button
+                    className=" text-bluegreen hover:scale-105 duration-300 disabled:text-grey"
+                    onClick={() => {
+                        addCartItem({
+                            userId: user?.id,
+                            productId: id,
+                        });
+                    }}
+                    disabled={
+                        user?.role !== "authenticated" ||
+                        isConnecting ||
+                        isInserting
+                    }
+                >
                     <span>
                         <FaCartPlus className="size-[27px]" />
                     </span>
-                </Link>
+                </button>
             </div>
         </div>
     );

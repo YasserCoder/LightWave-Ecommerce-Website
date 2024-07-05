@@ -6,7 +6,7 @@ function Button({
     children,
 }) {
     const style =
-        "bg-bluegreen py-[10px] text-secondary  cursor-pointer active:translate-y-1 active:shadow-lg" +
+        "bg-bluegreen py-[10px] text-secondary  cursor-pointer active:translate-y-1 active:shadow-lg disabled:active:translate-y-0 disabled:active:shadow-none disabled:cursor-not-allowed" +
         btnstyle;
 
     return (

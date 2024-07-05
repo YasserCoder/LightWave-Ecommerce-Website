@@ -18,9 +18,12 @@ import LikeBtn from "../ui/LikeBtn";
 import ProdCard from "../ui/ProdCard";
 import Services from "../ui/Services";
 import CategoryPath from "../ui/CategoryPath";
+import Quantity from "../ui/Quantity";
 
 import { FaCartPlus } from "react-icons/fa6";
 import { IoBagCheckOutline } from "react-icons/io5";
+import { useAddCartItem } from "../hook/cart/useAddCartItem";
+import { useUser } from "../hook/auth/useUser";
 
 function ProductDetails() {
     const [like, setLike] = useState(false);
@@ -35,6 +38,7 @@ function ProductDetails() {
     const productId = Number(pathSegments[pathSegments.length - 1]);
 
     const { isLoading, productInfo } = useProductDetails(productId);
+    const { isLoading: isConnecting, user } = useUser();
 
     const {
         brand,
@@ -48,6 +52,8 @@ function ProductDetails() {
         garantee,
         name,
     } = { ...productInfo };
+
+    const { isInserting, addCartItem } = useAddCartItem();
 
     if (isLoading) return <Loader />;
 
@@ -95,43 +101,24 @@ function ProductDetails() {
                                 <p className="font-semibold capitalize text-lg">
                                     Quantity :{" "}
                                 </p>
-                                <div className="border-2 flex items-center rounded-md">
-                                    <button
-                                        className={`py-2 px-4  text-lg font-semibold border-r-2 ${
-                                            qte <= 1
-                                                ? "text-grey cursor-not-allowed"
-                                                : "active:translate-y-[2px] text-bluegreen"
-                                        }  `}
-                                        disabled={qte <= 1}
-                                        onClick={() => {
-                                            if (qte > 1)
-                                                setQte(Number(qte) - 1);
-                                        }}
-                                    >
-                                        ــ
-                                    </button>
-                                    <input
-                                        type="number"
-                                        name="number"
-                                        className="w-16 py-2 px-2 outline-none font-semibold"
-                                        min={"1"}
-                                        value={qte}
-                                        onChange={(e) => {
-                                            setQte(e.target.value);
-                                        }}
-                                    />
-                                    <button
-                                        className="py-2 px-4 text-lg font-semibold text-bluegreen border-l-2 active:translate-y-[2px]"
-                                        onClick={() => {
-                                            setQte(Number(qte) + 1);
-                                        }}
-                                    >
-                                        +
-                                    </button>
-                                </div>
+                                <Quantity qte={qte} setQte={setQte} />
                             </div>
                             <div className="flex gap-x-4 items-center">
-                                <Button btnstyle=" px-[20px]  rounded-md flex gap-2 items-center hover:bg-hovercol hover:text-bluegreen">
+                                <Button
+                                    btnstyle=" px-[20px]  rounded-md flex gap-2 items-center hover:bg-hovercol hover:text-bluegreen disabled:bg-grey disabled:text-black"
+                                    handle={() => {
+                                        addCartItem({
+                                            userId: user?.id,
+                                            productId,
+                                            quantity: qte,
+                                        });
+                                    }}
+                                    state={
+                                        user?.role !== "authenticated" ||
+                                        isConnecting ||
+                                        isInserting
+                                    }
+                                >
                                     <span className="">
                                         <FaCartPlus />
                                     </span>
@@ -161,19 +148,23 @@ function ProductDetails() {
                                 {`Free delivery for orders over $50.00`}
                             </div>
                         </div>
-                        <p className="my-[10px]  space-x-2">
-                            <strong className="font-semibold text-lg">
-                                {" "}
-                                Description :{" "}
-                            </strong>
-                            <span>{`${description}`}</span>
-                        </p>
+                        {description !== null && (
+                            <p className="my-[10px]  space-x-2">
+                                <strong className="font-semibold text-lg">
+                                    Description :{" "}
+                                </strong>
+                                <span>{`${description}`}</span>
+                            </p>
+                        )}
                         <ul>
-                            {Object.keys(specifications).map((key, i) => {
+                            {specifications.map((spec, i) => {
                                 return (
                                     <li className="" key={i}>
-                                        <span className="font-semibold capitalize mr-2">{`- ${key} :`}</span>
-                                        <span className="">{`${specifications[key]} `}</span>
+                                        <span>-</span>
+                                        {spec.key !== null && (
+                                            <span className="font-semibold capitalize mr-2">{` ${spec.key} :`}</span>
+                                        )}
+                                        <span className="">{` ${spec.value} `}</span>
                                     </li>
                                 );
                             })}
@@ -187,7 +178,7 @@ function ProductDetails() {
                         <ProdCard key={index} id={1} />
                     ))}
                     {Array.from({ length: 2 }, (_, index) => (
-                        <ProdCard key={index} id={1} />
+                        <ProdCard key={index} id={6} />
                     ))}
                 </div>
             </Section>

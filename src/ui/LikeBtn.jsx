@@ -1,5 +1,6 @@
 import toast from "react-hot-toast";
-import { useUser } from "../hook/useUser";
+import Swal from "sweetalert2";
+import { useUser } from "../hook/auth/useUser";
 import styles from "./likebtn.module.css";
 
 function LikeBtn({ like, setLike, size, disabled = false }) {
@@ -14,7 +15,11 @@ function LikeBtn({ like, setLike, size, disabled = false }) {
                 toast.error("product has been droped from wishlist");
             }
         } else {
-            alert("you have to login to add this product to the wishlist");
+            Swal.fire({
+                icon: "error",
+                title: "Action not Authorized ",
+                text: "You have to login to add this product to the wishlist!",
+            });
         }
     }
     return (

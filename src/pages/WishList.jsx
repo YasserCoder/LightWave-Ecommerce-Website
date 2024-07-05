@@ -1,7 +1,7 @@
 import { TbHeartX } from "react-icons/tb";
 import Path from "../ui/Path";
 import { Link } from "react-router-dom";
-import { useUser } from "../hook/useUser";
+import { useUser } from "../hook/auth/useUser";
 import Loader from "../ui/Loader";
 
 function WishList() {
