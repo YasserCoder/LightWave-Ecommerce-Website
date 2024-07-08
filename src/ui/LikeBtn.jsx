@@ -1,18 +1,19 @@
-import toast from "react-hot-toast";
 import Swal from "sweetalert2";
-import { useUser } from "../hook/auth/useUser";
-import styles from "./likebtn.module.css";
+import { useLikeItem } from "../hook/wishlist/useLikeItem";
+import { useDislikeItem } from "../hook/wishlist/useDislikeItem";
 
-function LikeBtn({ like, setLike, size, disabled = false }) {
-    const { user } = useUser();
+import styles from "./likebtn.module.css";
+function LikeBtn({ like, setLike, size, user, productId, disabled = false }) {
+    const { likeItem, isLiking } = useLikeItem();
+    const { dislikeItem, isDisiking } = useDislikeItem();
     function handleLike(e) {
         if (user?.role === "authenticated") {
-            setLike(e);
+            setLike(e.target.checked);
 
             if (e.target.checked) {
-                toast.success("product has been add to wishlist");
+                likeItem({ productId, userId: user?.id });
             } else {
-                toast.error("product has been droped from wishlist");
+                dislikeItem({ productId, userId: user?.id });
             }
         } else {
             Swal.fire({
@@ -31,7 +32,7 @@ function LikeBtn({ like, setLike, size, disabled = false }) {
                 className={`${styles.checkbox} ${
                     disabled ? "cursor-auto" : "cursor-pointer"
                 }`}
-                disabled={disabled}
+                disabled={disabled || isLiking || isDisiking}
             />
             <div className={styles.svgContainer}>
                 <svg

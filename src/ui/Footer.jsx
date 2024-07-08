@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import {
     FaFacebookF,
     FaInstagram,
@@ -7,18 +8,8 @@ import {
     FaTiktok,
 } from "react-icons/fa";
 import logo from "../assets/footerlogo160.png";
-import { Link } from "react-router-dom";
 import Icon from "./Icon";
-const links = [
-    "contact",
-    "delivery",
-    "payment",
-    "sale",
-    "discoutns",
-    "helpful information",
-    "guarantee",
-    "stock",
-];
+
 function Footer() {
     return (
         <footer className="bg-primary text-secondary w-full py-[30px] sm:pb-5 lg:pb-[40px] ">
@@ -29,16 +20,30 @@ function Footer() {
                             INFORMATION FOR BUYER
                         </h1>
                         <ul className="grid grid-cols-2 gap-x-7 lg:gap-x-12 gap-y-[10px]">
-                            {links.map((e) => {
-                                return (
-                                    <li
-                                        className="hover:underline capitalize text-sm text-white"
-                                        key={e}
-                                    >
-                                        <Link>{e}</Link>
-                                    </li>
-                                );
-                            })}
+                            <li className="hover:underline capitalize text-sm text-white">
+                                <Link to={"/shop"}>stock</Link>
+                            </li>
+                            <li className="hover:underline capitalize text-sm text-white">
+                                <Link to={"/shop?status=sale"}>sale</Link>
+                            </li>
+                            <li className="hover:underline capitalize text-sm text-white">
+                                <Link to={"/shop?status=latest"}>latest</Link>
+                            </li>
+                            <li className="hover:underline capitalize text-sm text-white">
+                                <Link to={"/contact"}>contact us</Link>
+                            </li>
+                            <li className="hover:underline capitalize text-sm text-white">
+                                <Link to={"/about/whoarewe"}>who are we</Link>
+                            </li>
+                            <li className="hover:underline capitalize text-sm text-white">
+                                <Link to={"/about/delivery"}>delivery</Link>
+                            </li>
+                            <li className="hover:underline capitalize text-sm text-white">
+                                <Link to={"/about/payment"}>payment</Link>
+                            </li>
+                            <li className="hover:underline capitalize text-sm text-white">
+                                <Link to={"/about/garantee"}>garantee</Link>
+                            </li>
                         </ul>
                     </div>
                     <div className="space-y-[15px]">
@@ -77,11 +82,13 @@ function SocialMedia() {
         <div className="flex flex-col gap-y-[25px] lg:mt-2 lg:gap-y-[30px] lg:basis-[40%] xl:basis-[55%]">
             <div className="flex flex-col gap-y-[25px] lg:gap-y-[30px] sm:items-center sm:flex-row sm:justify-between lg:flex-col lg:items-start">
                 <div>
-                    <img
-                        src={logo}
-                        alt="footer-logo"
-                        className="2xl:w-[176px]"
-                    />
+                    <Link to={"/home"}>
+                        <img
+                            src={logo}
+                            alt="footer-logo"
+                            className="2xl:w-[176px]"
+                        />
+                    </Link>
                 </div>
                 <div className="flex gap-6">
                     <Icon href="https://facebook.com">

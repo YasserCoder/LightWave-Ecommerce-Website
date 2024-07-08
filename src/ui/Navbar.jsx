@@ -1,22 +1,25 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 
 import { useUser } from "../hook/auth/useUser";
 import { useLogout } from "../hook/auth/useLogout";
+import { useGetCartItems } from "../hook/cart/useGetCartItems";
+import { LocalStorageContext } from "./LocalStorageContext";
 
 import SearchBar from "./SearchBar";
 import Button from "./Button";
 import Loader from "./Loader";
 
-import logo from "../assets/logo.png";
 import { FaHeart, FaRegEye } from "react-icons/fa";
 import { FaCartShopping, FaUser } from "react-icons/fa6";
 import { VscSignOut } from "react-icons/vsc";
-import { useGetCartItems } from "../hook/cart/useGetCartItems";
 
+import logo from "../assets/logo.png";
 function Navbar() {
     const { isLoading: isConnecting, user } = useUser();
     const { isLoading, cartItems } = useGetCartItems(user?.id);
+
+    const { value } = useContext(LocalStorageContext);
 
     return (
         <nav className="container flex items-center justify-between py-5 border-b border-[#e1e1e1]">
@@ -49,9 +52,12 @@ function Navbar() {
                     >
                         <FaCartShopping className="size-5" />
                         <span className="text-xl">{`(${
-                            isLoading || isConnecting ? "" : cartItems?.length
+                            isConnecting || isLoading
+                                ? ""
+                                : user?.role !== "authenticated"
+                                ? value?.length
+                                : cartItems?.length
                         })`}</span>
-                        {/* <span>{cartItems.}</span> */}
                     </NavLink>
                     <span className="absolute w-0 h-[2px] -bottom-2 left-0 bg-bluegreen duration-300 group-hover:w-full"></span>
                 </li>

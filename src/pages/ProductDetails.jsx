@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import "swiper/css";
@@ -9,6 +9,9 @@ import "swiper/css/thumbs";
 
 import { calculateNewPrice } from "../utils/helpers";
 import { useProductDetails } from "../hook/useProductDetails";
+import { useAddCartItem } from "../hook/cart/useAddCartItem";
+import { useAddLocalCartItem } from "../hook/cart/useAddLocalCartItem";
+import { useUser } from "../hook/auth/useUser";
 
 import Path from "../ui/Path";
 import Loader from "../ui/Loader";
@@ -22,28 +25,20 @@ import Quantity from "../ui/Quantity";
 
 import { FaCartPlus } from "react-icons/fa6";
 import { IoBagCheckOutline } from "react-icons/io5";
-import { useAddCartItem } from "../hook/cart/useAddCartItem";
-import { useUser } from "../hook/auth/useUser";
 
 function ProductDetails() {
-    const [like, setLike] = useState(false);
     const [qte, setQte] = useState(1);
-
-    function handleChecked(e) {
-        setLike(e.target.checked);
-    }
 
     const location = useLocation();
     const pathSegments = location.pathname.split("/").filter(Boolean);
     const productId = Number(pathSegments[pathSegments.length - 1]);
 
-    const { isLoading, productInfo } = useProductDetails(productId);
     const { isLoading: isConnecting, user } = useUser();
+    const { isLoading, productInfo } = useProductDetails(productId);
 
     const {
         brand,
         category,
-        // delivery,
         imgs,
         description,
         sale,
@@ -51,9 +46,17 @@ function ProductDetails() {
         specifications,
         garantee,
         name,
+        inWishlist,
     } = { ...productInfo };
 
+    const [like, setLike] = useState(inWishlist?.length > 0 || false);
+
+    useEffect(() => {
+        setLike(inWishlist?.length > 0);
+    }, [inWishlist]);
+
     const { isInserting, addCartItem } = useAddCartItem();
+    const { isAdding, addLocalCartItem } = useAddLocalCartItem();
 
     if (isLoading) return <Loader />;
 
@@ -92,7 +95,9 @@ function ProductDetails() {
                                 <LikeBtn
                                     size={45}
                                     like={like}
-                                    setLike={handleChecked}
+                                    setLike={setLike}
+                                    productId={productId}
+                                    user={user}
                                 />
                             </div>
                         </div>
@@ -107,16 +112,21 @@ function ProductDetails() {
                                 <Button
                                     btnstyle=" px-[20px]  rounded-md flex gap-2 items-center hover:bg-hovercol hover:text-bluegreen disabled:bg-grey disabled:text-black"
                                     handle={() => {
-                                        addCartItem({
-                                            userId: user?.id,
-                                            productId,
-                                            quantity: qte,
-                                        });
+                                        if (user?.role === "authenticated") {
+                                            addCartItem({
+                                                userId: user?.id,
+                                                productId,
+                                                quantity: qte,
+                                            });
+                                        } else {
+                                            addLocalCartItem({
+                                                productId,
+                                                quantity: qte,
+                                            });
+                                        }
                                     }}
                                     state={
-                                        user?.role !== "authenticated" ||
-                                        isConnecting ||
-                                        isInserting
+                                        isConnecting || isInserting || isAdding
                                     }
                                 >
                                     <span className="">

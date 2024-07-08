@@ -16,6 +16,7 @@ import ProductDetails from "./pages/ProductDetails";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Profile from "./pages/Profile";
+import { LocalStorageProvider } from "./ui/LocalStorageContext";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -34,7 +35,13 @@ function App() {
             />
             <BrowserRouter>
                 <Routes>
-                    <Route element={<AppLayout />}>
+                    <Route
+                        element={
+                            <LocalStorageProvider>
+                                <AppLayout />
+                            </LocalStorageProvider>
+                        }
+                    >
                         <Route index element={<Navigate replace to="home" />} />
                         <Route path="home" element={<Home />} />
                         <Route path="login" element={<Login />} />

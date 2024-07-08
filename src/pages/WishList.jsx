@@ -1,19 +1,21 @@
-import { TbHeartX } from "react-icons/tb";
-import Path from "../ui/Path";
 import { Link } from "react-router-dom";
+import { useGetLikedItems } from "../hook/wishlist/useGetLikedItems";
 import { useUser } from "../hook/auth/useUser";
+
+import Path from "../ui/Path";
 import Loader from "../ui/Loader";
+import ProdCard from "../ui/ProdCard";
+
+import { TbHeartX } from "react-icons/tb";
 
 function WishList() {
-    const { isLoading, user } = useUser();
+    const { isLoading: isConnecting, user } = useUser();
+    const { isLoading, wishlistItems } = useGetLikedItems(user?.id);
 
-    if (isLoading) {
-        return (
-            <div className="h-[100vh] flex justify-center items-center">
-                <Loader />
-            </div>
-        );
+    if (isConnecting || isLoading) {
+        return <Loader />;
     }
+
     if (user?.role !== "authenticated") {
         return (
             <div className="py-36 flex items-center justify-center container">
@@ -29,8 +31,20 @@ function WishList() {
 
     return (
         <div className="py-4 container flex flex-col gap-y-10">
-            <Path dest={["wish List"]} />
-            <EmptyWishList />
+            <Path dest={["wishlist"]} />
+            {!wishlistItems.length && <EmptyWishList />}
+            {wishlistItems.length > 0 && (
+                <div className="grid grid-cols-220 gap-5 mb-10 lg:mb-16">
+                    {wishlistItems.map((item) => {
+                        return (
+                            <ProdCard
+                                id={item.productId}
+                                key={item.productId}
+                            />
+                        );
+                    })}
+                </div>
+            )}
         </div>
     );
 }

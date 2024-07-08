@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+
 import { calculateNewPrice } from "../utils/helpers";
 import { useProductDetails } from "../hook/useProductDetails";
 import { useUser } from "../hook/auth/useUser";
 import { useAddCartItem } from "../hook/cart/useAddCartItem";
+import { useAddLocalCartItem } from "../hook/cart/useAddLocalCartItem";
 
 import LikeBtn from "./LikeBtn";
 import Loader from "./Loader";
@@ -14,18 +16,21 @@ import { FaRegEye } from "react-icons/fa";
 
 import newicon from "../assets/new.png";
 function ProdCard({ latest = false, id }) {
-    const [like, setLike] = useState(false);
-    function handleChecked(e) {
-        setLike(e.target.checked);
-    }
-
-    const { isLoading, productInfo } = useProductDetails(id);
-    const { name, price, sale, soldOut, category, imgs } = { ...productInfo };
-
     const { isLoading: isConnecting, user } = useUser();
-    const { isInserting, addCartItem } = useAddCartItem();
+    const { isLoading, productInfo } = useProductDetails(id);
+    const { name, price, sale, soldOut, category, imgs, inWishlist } = {
+        ...productInfo,
+    };
+    const [like, setLike] = useState(inWishlist?.length > 0 || false);
 
-    if (isLoading) return <Loader />;
+    useEffect(() => {
+        setLike(inWishlist?.length > 0);
+    }, [inWishlist]);
+
+    const { isInserting, addCartItem } = useAddCartItem();
+    const { isAdding, addLocalCartItem } = useAddLocalCartItem();
+
+    if (isLoading || isConnecting) return <Loader />;
 
     return (
         <div className={`shadow-lg flex flex-col relative z-0 `}>
@@ -95,23 +100,28 @@ function ProdCard({ latest = false, id }) {
                 <LikeBtn
                     size={27}
                     like={like}
-                    setLike={handleChecked}
+                    setLike={setLike}
                     disabled={soldOut}
+                    user={user}
+                    productId={id}
                 />
                 <span className="w-[2px] h-6 bg-grey"></span>
                 <button
                     className=" text-bluegreen hover:scale-105 duration-300 disabled:text-grey"
                     onClick={() => {
-                        addCartItem({
-                            userId: user?.id,
-                            productId: id,
-                        });
+                        if (user?.role === "authenticated") {
+                            addCartItem({
+                                userId: user?.id,
+                                productId: id,
+                            });
+                        } else {
+                            addLocalCartItem({
+                                productId: Number(id),
+                                quantity: 1,
+                            });
+                        }
                     }}
-                    disabled={
-                        user?.role !== "authenticated" ||
-                        isConnecting ||
-                        isInserting
-                    }
+                    disabled={isAdding || isInserting}
                 >
                     <span>
                         <FaCartPlus className="size-[27px]" />

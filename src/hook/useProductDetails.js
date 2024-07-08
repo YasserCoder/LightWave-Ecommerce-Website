@@ -3,7 +3,7 @@ import { getProductInfo } from "../services/apiProducts";
 
 export function useProductDetails(id) {
     const { isLoading, data: productInfo } = useQuery({
-        queryKey: ["Product", id],
+        queryKey: ["product", id],
         queryFn: () => getProductInfo(id),
         enabled: !!id,
     });

@@ -10,10 +10,6 @@ export async function getCartItems(userId) {
         console.log(error.message);
         throw new Error(error.message);
     }
-    // let totalPrice =0;
-    // for (const item of data){
-    //     totalPrice = totalPrice+
-    // }
 
     return data;
 }
@@ -39,8 +35,8 @@ export async function deleteCartItem({ userId, productId }) {
         .eq("userId", userId);
 
     if (error) {
-        console.error(error);
-        throw new Error("Cabin could not be deleted");
+        console.error(error.message);
+        throw new Error(error.message);
     }
 }
 

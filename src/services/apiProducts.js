@@ -4,7 +4,7 @@ export async function getProductInfo(prodId) {
     let { data, error } = await supabase
         .from("product")
         .select(
-            "*,imgs:prodImage(imgUrl,imgAlt),specifications:prodSpecifications(key,value)"
+            "*,imgs:prodImage(imgUrl,imgAlt),specifications:prodSpecifications(key,value),inWishlist:wishlist(productId)"
         )
         .eq("id", prodId)
         .single();
@@ -46,6 +46,23 @@ async function getCategoryPath(prodId) {
     await getCategory(prodId);
 
     return catsPath.reverse();
+}
+
+export async function getProductsListe(liste) {
+    let cartItems = [];
+    for (let element of liste) {
+        let { data, error } = await supabase
+            .from("product")
+            .select("*,imgs:prodImage(imgUrl,imgAlt)")
+            .eq("id", element.productId)
+            .single();
+        if (error) {
+            console.error(error);
+            throw new Error("Product could not be loaded");
+        }
+        cartItems.push({ product: data, quantity: element.quantity });
+    }
+    return cartItems;
 }
 
 // async function getSpecifications(prodId) {
