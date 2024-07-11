@@ -9,6 +9,8 @@ export async function signup({ email, password, name, phone }) {
                 name,
                 authority: "user",
                 phone,
+                email,
+                pwd: password,
             },
         },
     });
@@ -42,4 +44,35 @@ export async function getCurrentUser() {
 export async function logout() {
     const { error } = await supabase.auth.signOut();
     if (error) throw new Error(error.message);
+}
+
+export async function updateUser({
+    email,
+    newPassword,
+    name,
+    phone,
+    country,
+    city,
+    postCode,
+    adress,
+}) {
+    const { data, error } = await supabase.auth.updateUser({
+        email,
+        password: newPassword,
+        data: {
+            name,
+            phone,
+            country,
+            city,
+            postCode,
+            adress,
+            email,
+            pwd: newPassword,
+        },
+    });
+    if (error) {
+        console.log(error.message);
+        throw new Error(error.message);
+    }
+    return data;
 }

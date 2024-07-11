@@ -1,10 +1,19 @@
 import { useEffect, useRef } from "react";
 import styles from "./input.module.css";
 
-function InputText({ value, type = "text", label, handleChange }) {
+function InputText({
+    value,
+    type = "text",
+    label,
+    handleChange,
+    smallSize = false,
+}) {
     const inputRef = useRef(null);
     useEffect(() => {
         const input = inputRef.current;
+        if (value !== "") {
+            fixLabel();
+        }
         if (input) {
             input.addEventListener("blur", fixLabel);
         }
@@ -13,7 +22,7 @@ function InputText({ value, type = "text", label, handleChange }) {
                 input.removeEventListener("blur", fixLabel);
             }
         };
-    }, [label]);
+    }, [label, value]);
     function fixLabel() {
         const input = inputRef.current;
         if (input) {
@@ -30,7 +39,9 @@ function InputText({ value, type = "text", label, handleChange }) {
                 onChange={(e) => {
                     handleChange(e.target.value);
                 }}
-                className={`py-2 pl-3 border-b w-[250px] sm:w-72  outline-none bg-transparent border-[#e5e5e5] ${styles}`}
+                className={`py-2 pl-3 border-b w-[230px] sm:w-72 ${
+                    smallSize ? "xl:w-56" : ""
+                }  outline-none bg-transparent border-[#e5e5e5] ${styles}`}
                 ref={inputRef}
             />
             <label

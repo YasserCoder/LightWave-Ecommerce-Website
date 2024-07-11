@@ -3,3 +3,5 @@ export function calculateNewPrice(price, sale) {
     let saleAmount = (price * sale) / 100;
     return (price - saleAmount).toFixed(2);
 }
+
+export const isWhitespace = (str) => /^\s*$/.test(str);

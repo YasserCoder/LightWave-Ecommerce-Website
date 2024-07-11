@@ -2,15 +2,13 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 import { useSignUp } from "../hook/auth/useSignUp";
+import { isWhitespace } from "../utils/helpers";
+import { emailRegex, phoneRegex } from "../utils/constants";
 
 import InputText from "../ui/InputText";
 import Path from "../ui/Path";
 import Form from "../ui/Form";
 import Button from "../ui/Button";
-
-const phoneRegex =
-    /^\+?(\d{1,3})?[-.\s]?\(?\d{1,4}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
-const isWhitespace = (str) => /^\s*$/.test(str);
 
 function Register() {
     const [name, setName] = useState("");
@@ -32,6 +30,10 @@ function Register() {
             return;
         }
 
+        if (!emailRegex.test(email)) {
+            setError("Invalid email");
+            return;
+        }
         if (!phoneRegex.test(phone)) {
             setError("Invalid phone number");
             return;
