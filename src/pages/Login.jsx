@@ -42,9 +42,6 @@ function Login() {
                     handleChange={setPassword}
                 />
                 <div className="w-[230px] sm:w-full flex flex-col gap-5">
-                    <span className="text-bluegreen text-sm font-medium self-end mr-1 -mt-7">
-                        <Link>Recover password</Link>
-                    </span>
                     <div className="">
                         <Button
                             btnstyle=" px-[28px] rounded-1 "

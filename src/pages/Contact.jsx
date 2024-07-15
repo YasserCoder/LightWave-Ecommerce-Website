@@ -1,4 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+import { useSendMessage } from "../hook/useSendMessage";
+import { useUser } from "../hook/auth/useUser";
+import { isWhitespace } from "../utils/helpers";
+import { emailRegex, phoneRegex } from "../utils/constants";
 
 import Path from "../ui/Path";
 import InputText from "../ui/InputText";
@@ -52,17 +57,51 @@ function Location() {
 }
 
 function Form() {
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [phone, setPhone] = useState("");
+    const { isLoading, user } = useUser();
+    const [name, setName] = useState(user?.user_metadata?.name || "");
+    const [email, setEmail] = useState(user?.email || "");
+    const [phone, setPhone] = useState(user?.user_metadata?.phone || "");
     const [message, setMessage] = useState("");
+    const [error, setError] = useState("");
+    const { isSending, sendMessage } = useSendMessage();
+    useEffect(() => {
+        setName(user?.user_metadata?.name || "");
+        setEmail(user?.email || "");
+        setPhone(user?.user_metadata?.phone || "");
+    }, [user]);
     function handleSubmit(e) {
         e.preventDefault();
-        console.log("submit");
-        setName("");
-        setPhone("");
-        setEmail("");
-        setMessage("");
+        if (!name || !message || !phone || !email) {
+            setError("fill all the nessecary cases");
+            return;
+        }
+        if (isWhitespace(name) || !isNaN(name) || name.length < 6) {
+            setError("Invalide name");
+            return;
+        }
+        if (!emailRegex.test(email)) {
+            setError("Invalid email");
+            return;
+        }
+        if (!phoneRegex.test(phone)) {
+            setError("Invalid phone number");
+            return;
+        }
+        let messageData = {
+            customerEmail: email,
+            customerName: name,
+            customerPhone: phone,
+            content: message,
+        };
+        sendMessage(messageData, {
+            onSettled: () => {
+                setName("");
+                setPhone("");
+                setEmail("");
+                setMessage("");
+                setError("");
+            },
+        });
     }
     return (
         <form className="flex flex-col items-center  rounded-md bg-white shadow-xl gap-8 w-full max-w-[500px] md:max-w-none md:w-fit p-4 xs:p-7 sm:px-12 md:px-14 xl:px-28">
@@ -90,11 +129,13 @@ function Form() {
                 className="py-2 pl-3 border w-[250px] sm:w-72 rounded-md  outline-none bg-transparent border-[#e5e5e5]"
                 rows={5}
             />
+            {error && <p className=" text-red-600 ">{`**${error}`}</p>}
             <div className="">
                 <Button
-                    btnstyle=" px-[28px] rounded-xl capitalize"
+                    btnstyle=" px-[28px] rounded-xl capitalize hover:bg-hovercol hover:text-bluegreen disabled:bg-grey disabled:text-black"
                     handle={handleSubmit}
                     submit={true}
+                    state={isSending || isLoading}
                 >
                     send
                 </Button>

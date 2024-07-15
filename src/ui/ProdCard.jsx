@@ -9,10 +9,10 @@ import { useAddLocalCartItem } from "../hook/cart/useAddLocalCartItem";
 
 import LikeBtn from "./LikeBtn";
 import Loader from "./Loader";
-import CategoryPath from "./CategoryPath";
 
 import { FaCartPlus } from "react-icons/fa6";
 import { FaRegEye } from "react-icons/fa";
+import { IoIosPricetag } from "react-icons/io";
 
 import newicon from "../assets/new.png";
 function ProdCard({ latest = false, id }) {
@@ -66,7 +66,18 @@ function ProdCard({ latest = false, id }) {
             </div>
             <div className="flex flex-col gap-1 px-4 py-2 border-y flex-grow ">
                 <div className="flex gap-[2px] text-grey items-center text-xs capitalize whitespace-nowrap overflow-hidden text-ellipsis">
-                    <CategoryPath category={category} />
+                    <p className="flex gap-1 items-center">
+                        <span>
+                            <IoIosPricetag />
+                        </span>
+
+                        <Link
+                            to={`/shop/${category.join("/")}`}
+                            className="capitalize hover:font-semibold duration-300"
+                        >
+                            {category.at(-1)}
+                        </Link>
+                    </p>
                 </div>
                 <Link
                     className=" font-semibold uppercase flex-grow line-clamp-2 hover:text-bluegreen duration-300"
