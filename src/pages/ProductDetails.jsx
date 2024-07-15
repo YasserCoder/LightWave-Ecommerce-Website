@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
@@ -27,8 +27,7 @@ import { FaCartPlus } from "react-icons/fa6";
 import { IoBagCheckOutline } from "react-icons/io5";
 
 function ProductDetails() {
-    const [qte, setQte] = useState(1);
-
+    const navigate = useNavigate();
     const location = useLocation();
     const pathSegments = location.pathname.split("/").filter(Boolean);
     const productId = Number(pathSegments[pathSegments.length - 1]);
@@ -49,6 +48,7 @@ function ProductDetails() {
         inWishlist,
     } = { ...productInfo };
 
+    const [qte, setQte] = useState(1);
     const [like, setLike] = useState(inWishlist?.length > 0 || false);
 
     useEffect(() => {
@@ -138,7 +138,28 @@ function ProductDetails() {
                                     </span>
                                 </Button>
 
-                                <Button btnstyle=" px-[20px] rounded-md flex gap-2 items-center hover:bg-hovercol hover:text-bluegreen">
+                                <Button
+                                    btnstyle=" px-[20px] rounded-md flex gap-2 items-center hover:bg-hovercol hover:text-bluegreen"
+                                    handle={() => {
+                                        const subTotal = Number(
+                                            calculateNewPrice(price * qte, sale)
+                                        );
+                                        const prodInfo = [
+                                            {
+                                                id: productId,
+                                                name,
+                                                qte,
+                                                price: subTotal,
+                                            },
+                                        ];
+                                        const data = {
+                                            priceS: subTotal,
+                                            prodInfo,
+                                            source: "prodDetails",
+                                        };
+                                        navigate("/checkout", { state: data });
+                                    }}
+                                >
                                     <span>
                                         <IoBagCheckOutline className="text-lg" />
                                     </span>

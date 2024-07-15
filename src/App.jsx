@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
 
+import { LocalStorageProvider } from "./ui/LocalStorageContext";
 import AppLayout from "./ui/AppLayout";
 import Home from "./pages/Home";
 import PageNotFound from "./pages/PageNotFound";
@@ -16,7 +17,7 @@ import ProductDetails from "./pages/ProductDetails";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Profile from "./pages/Profile";
-import { LocalStorageProvider } from "./ui/LocalStorageContext";
+import Checkout from "./pages/Checkout";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -49,6 +50,7 @@ function App() {
                         <Route path="profile" element={<Profile />} />
                         <Route path="wishlist" element={<WishList />} />
                         <Route path="cart" element={<Cart />} />
+                        <Route path="checkout" element={<Checkout />} />
                         <Route path="about">
                             <Route
                                 index

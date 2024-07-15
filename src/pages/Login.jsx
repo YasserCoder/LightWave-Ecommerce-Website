@@ -41,27 +41,29 @@ function Login() {
                     value={password}
                     handleChange={setPassword}
                 />
-                <span className="text-bluegreen font-medium self-end mr-1 -mt-7">
-                    <Link>Recover password</Link>
-                </span>
-                <div className="self-start">
-                    <Button
-                        btnstyle=" px-[28px] rounded-1 "
-                        handle={handleSubmit}
-                        state={isLoading}
-                        submit={true}
-                    >
-                        Login
-                    </Button>
-                </div>
-                <p className="text-sm text-[#828282] self-start">
-                    Don`t have an account yet? &nbsp;
-                    <span>
-                        <Link to={"/register"} className="text-bluegreen">
-                            Sign up
-                        </Link>
+                <div className="w-[230px] sm:w-full flex flex-col gap-5">
+                    <span className="text-bluegreen text-sm font-medium self-end mr-1 -mt-7">
+                        <Link>Recover password</Link>
                     </span>
-                </p>
+                    <div className="">
+                        <Button
+                            btnstyle=" px-[28px] rounded-1 "
+                            handle={handleSubmit}
+                            state={isLoading}
+                            submit={true}
+                        >
+                            Login
+                        </Button>
+                    </div>
+                    <p className="text-sm text-[#828282]">
+                        Don`t have an account yet? &nbsp;
+                        <span>
+                            <Link to={"/register"} className="text-bluegreen">
+                                Sign up
+                            </Link>
+                        </span>
+                    </p>
+                </div>
             </Form>
         </div>
     );

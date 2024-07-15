@@ -52,3 +52,10 @@ export async function addCartItem({ userId, productId, quantity = 1 }) {
 
     return data;
 }
+export async function deleteCart(userId) {
+    const { error } = await supabase.from("cart").delete().eq("userId", userId);
+    if (error) {
+        console.error(error.message);
+        throw new Error(error.message);
+    }
+}

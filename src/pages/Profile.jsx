@@ -117,7 +117,7 @@ function Profile() {
     return (
         <div className="py-4 container ">
             <Path dest={["profile"]} />
-            <form className="flex flex-col w-full border border-[#BDBDBD] rounded-md shadow-xl gap-8 my-6 sm:my-12 lg:my-8 p-5 xs:p-7 sm:px-8 md:px-16 xl:px-20">
+            <form className="flex flex-col w-full border border-[#BDBDBD] rounded-md shadow-xl gap-8 my-6 sm:my-12 lg:my-8 p-5 xs:p-7 sm:px-8 md:px-16 xl:px-28">
                 <h1 className="uppercase font-black text-2xl mb-3">profile</h1>
                 <div className="flex gap-y-8 flex-wrap gap-x-5 justify-between ">
                     <div className="flex flex-col gap-y-8">

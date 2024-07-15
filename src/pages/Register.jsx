@@ -88,27 +88,29 @@ function Register() {
                     value={cpassword}
                     handleChange={setCpassword}
                 />
-                {error && (
-                    <p className="self-start text-red-600 ">{`**${error}`}</p>
-                )}
-                <div className="self-start">
-                    <Button
-                        btnstyle=" px-[28px] rounded-1"
-                        handle={handleSubmit}
-                        state={isLoading}
-                        submit={true}
-                    >
-                        Sign up
-                    </Button>
+                <div className="w-[230px] sm:w-full flex flex-col gap-5">
+                    {error && (
+                        <p className="self-start text-red-600 ">{`**${error}`}</p>
+                    )}
+                    <div>
+                        <Button
+                            btnstyle=" px-[28px] rounded-1"
+                            handle={handleSubmit}
+                            state={isLoading}
+                            submit={true}
+                        >
+                            Sign up
+                        </Button>
+                    </div>
+                    <p className="text-sm text-[#828282] ">
+                        Already have an account ? &nbsp;
+                        <span>
+                            <Link to={"/login"} className="text-bluegreen">
+                                Login
+                            </Link>
+                        </span>
+                    </p>
                 </div>
-                <p className="text-sm text-[#828282] self-start">
-                    Already have an account ? &nbsp;
-                    <span>
-                        <Link to={"/login"} className="text-bluegreen">
-                            Login
-                        </Link>
-                    </span>
-                </p>
             </Form>
         </div>
     );

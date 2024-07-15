@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 import { calculateNewPrice } from "../../utils/helpers";
@@ -108,6 +108,7 @@ function CartBody({
     );
 }
 function OrderInfo({ cartItems }) {
+    const navigate = useNavigate();
     const [totalPrice, setTotalPrice] = useState(0);
     const [totalDiscounts, setTotalDiscounts] = useState(0);
 
@@ -115,9 +116,12 @@ function OrderInfo({ cartItems }) {
     const [paymentMethode, setPaymentMethode] = useState("Hand By Hand");
     const [deliveryCost, setDeliveryCost] = useState(5);
 
+    const [prodInfo, setProdInfo] = useState([]);
+
     useEffect(() => {
         setTotalPrice(0);
         setTotalDiscounts(0);
+        setProdInfo([]);
         cartItems?.map((item) => {
             setTotalPrice((prevAmount) => {
                 return prevAmount + item.product.price * item.quantity;
@@ -129,6 +133,22 @@ function OrderInfo({ cartItems }) {
                     (sum -
                         parseFloat(calculateNewPrice(sum, item.product.sale)))
                 );
+            });
+            setProdInfo((prevItems) => {
+                return [
+                    ...prevItems,
+                    {
+                        id: item.product.id,
+                        name: item.product.name,
+                        qte: item.quantity,
+                        price: Number(
+                            calculateNewPrice(
+                                item.product.price * item.quantity,
+                                item.product.sale
+                            )
+                        ),
+                    },
+                ];
             });
         });
     }, [cartItems]);
@@ -144,6 +164,17 @@ function OrderInfo({ cartItems }) {
             }
         }
     }, [totalDiscounts, totalPrice, deliveryMethode]);
+
+    const handleCheckout = () => {
+        const subTotal = Number(totalPrice - totalDiscounts);
+        const data = {
+            priceS: subTotal,
+            prodInfo,
+            delivery: deliveryMethode,
+            source: "cart",
+        };
+        navigate("/checkout", { state: data });
+    };
 
     return (
         <div className="flex flex-col gap-y-7 justify-center items-center lg:items-start lg:flex-row lg:justify-between mb-8">
@@ -178,6 +209,11 @@ function OrderInfo({ cartItems }) {
                         <option value={"Cards/Paypal"}>Cards/Paypal</option>
                     </select>
                 </div>
+                {paymentMethode === "Cards/Paypal" && (
+                    <p className="mt-5 text-red-600 sm:max-w-[390px] xl:max-w-none">
+                        Note : that payment methode is not available for now
+                    </p>
+                )}
                 <p className="mt-5 text-black sm:max-w-[390px] xl:max-w-none">
                     * You can read our{" "}
                     <Link
@@ -236,7 +272,7 @@ function OrderInfo({ cartItems }) {
                 <div className="w-fit self-center mt-2">
                     <Button
                         btnstyle=" capitalize px-5 rounded-md "
-                        handle={() => console.log(cartItems)}
+                        handle={handleCheckout}
                     >
                         proceed to checkout
                     </Button>
