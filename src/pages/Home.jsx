@@ -1,16 +1,19 @@
 import { useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 
 import "swiper/css";
 import styles from "../ui/brands.module.css";
 
+import { useGetDeal } from "../hook/deal/useGetDeal";
+
 import Hero from "../ui/Hero";
 import ProdCard from "../ui/ProdCard";
 import Section from "../ui/Section";
 import Services from "../ui/Services";
-import anounnce from "../assets/Anounnce.jpg";
+import Loader from "../ui/Loader";
+
 import beetro from "../assets/brands/Beetro.png";
 import bms from "../assets/brands/BMS.png";
 import finolex from "../assets/brands/finolex.png";
@@ -90,6 +93,7 @@ function Anouncement({ title, latest, dest }) {
 function BestDeals() {
     const prevRef = useRef(null);
     const nextRef = useRef(null);
+    const dealsLength = 3;
     return (
         <Section title={"best deals"}>
             <div className="relative w-[80%] mx-auto">
@@ -97,7 +101,8 @@ function BestDeals() {
                     modules={[Navigation]}
                     spaceBetween={30}
                     slidesPerView={1}
-                    loop={true}
+                    centeredSlides={dealsLength === 1}
+                    loop={dealsLength > 2}
                     grabCursor={true}
                     onInit={(swiper) => {
                         swiper.params.navigation.prevEl = prevRef.current;
@@ -114,32 +119,67 @@ function BestDeals() {
                         },
                     }}
                 >
-                    {Array.from({ length: 3 }, (_, index) => (
+                    {Array.from({ length: dealsLength }, (_, index) => (
                         <SwiperSlide key={index}>
-                            <div className="relative border ">
-                                <img src={anounnce} />
-                                <Link className="absolute left-3 bottom-4 sm:bottom-8 sm:left-6 lg:bottom-10 xl:bottom-12 xl:left-9 text-lg xl:text-xl xl:font-semibold flex items-center font-semibold  gap-1  text-bluegreen hover:text-hovercol">
-                                    Buy Now <MdOpenInNew />
-                                </Link>
-                            </div>
+                            <Deal id={1} />
                         </SwiperSlide>
                     ))}
                 </Swiper>
 
                 <button
                     ref={prevRef}
-                    className="absolute top-[50%] z-20 translate-y-[-50%] -left-[42px] sm:-left-13 md:-left-16 lg:-left-20 xl:text-5xl size-8 md:size-12 xl:size-16 flex items-center justify-center rounded-full hover:bg-bluegreen hover:text-secondary hover:scale-110 text-xl md:text-3xl cursor-pointer duration-300"
+                    className={`absolute top-[50%] z-20 translate-y-[-50%] -left-[42px] sm:-left-13 md:-left-16 lg:-left-20 xl:text-5xl size-8 md:size-12 xl:size-16 flex items-center justify-center rounded-full hover:bg-bluegreen hover:text-secondary hover:scale-110 text-xl md:text-3xl cursor-pointer duration-300 ${
+                        dealsLength > 2 ? "" : "hidden"
+                    }`}
                 >
                     <FaAngleLeft />
                 </button>
                 <button
                     ref={nextRef}
-                    className="absolute top-[50%] z-20 translate-y-[-50%] -right-[42px] sm:-right-13 md:-right-16 lg:-right-20 xl:text-5xl size-8 md:size-12 xl:size-16 flex items-center justify-center rounded-full hover:bg-bluegreen hover:text-secondary hover:scale-110 text-xl md:text-3xl cursor-pointer duration-300"
+                    className={`absolute top-[50%] z-20 translate-y-[-50%] -right-[42px] sm:-right-13 md:-right-16 lg:-right-20 xl:text-5xl size-8 md:size-12 xl:size-16 flex items-center justify-center rounded-full hover:bg-bluegreen hover:text-secondary hover:scale-110 text-xl md:text-3xl cursor-pointer duration-300 ${
+                        dealsLength > 2 ? "" : "hidden"
+                    }`}
                 >
                     <FaAngleRight />
                 </button>
             </div>
         </Section>
+    );
+}
+
+function Deal({ id }) {
+    const navigate = useNavigate();
+    const { isGetting, deal } = useGetDeal(id);
+    const { amount, img, deliveryCost, dealItems } = { ...deal };
+    function handleBuy(e) {
+        e.preventDefault();
+        let prodInfo = [];
+        for (let item of dealItems) {
+            let obj = {};
+            obj["id"] = item.product.id;
+            obj["name"] = item.product.name;
+            obj["qte"] = item.quantity;
+            prodInfo.push(obj);
+        }
+        const data = {
+            priceS: amount,
+            prodInfo,
+            source: "deals",
+            deliveryCost,
+        };
+        navigate("/checkout", { state: data });
+    }
+    if (isGetting) return <Loader />;
+    return (
+        <div className="relative border ">
+            <img src={img} alt="announce" />
+            <button
+                className="absolute left-3 bottom-4 sm:bottom-8 sm:left-6 lg:bottom-10 xl:bottom-12 xl:left-9 text-lg xl:text-xl xl:font-semibold flex items-center font-semibold  gap-1  text-bluegreen hover:text-hovercol"
+                onClick={handleBuy}
+            >
+                Buy Now <MdOpenInNew />
+            </button>
+        </div>
     );
 }
 

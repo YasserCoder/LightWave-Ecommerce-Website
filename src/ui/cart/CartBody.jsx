@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 import { calculateNewPrice } from "../../utils/helpers";
+import { DESK_PRICE, FREE_DELIVERY, HOME_PRICE } from "../../utils/constants";
 
 import Button from "../Button";
 import Quantity from "../Quantity";
@@ -154,13 +155,13 @@ function OrderInfo({ cartItems }) {
     }, [cartItems]);
 
     useEffect(() => {
-        if (totalPrice - totalDiscounts > 50) {
+        if (totalPrice - totalDiscounts > FREE_DELIVERY) {
             setDeliveryCost(0);
         } else {
             if (deliveryMethode === "Stop Desk") {
-                setDeliveryCost(5);
+                setDeliveryCost(DESK_PRICE);
             } else {
-                setDeliveryCost(8);
+                setDeliveryCost(HOME_PRICE);
             }
         }
     }, [totalDiscounts, totalPrice, deliveryMethode]);
@@ -172,6 +173,7 @@ function OrderInfo({ cartItems }) {
             prodInfo,
             delivery: deliveryMethode,
             source: "cart",
+            deliveryCost: "normal",
         };
         navigate("/checkout", { state: data });
     };

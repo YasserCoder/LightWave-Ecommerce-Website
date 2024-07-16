@@ -14,9 +14,9 @@ export async function addOrder({ orderData, prodInfo }) {
 
     const orderItemsData = prodInfo.map((item) => ({
         orderId: order.id,
-        productId: item.id,
-        quantity: item.qte,
-        price: item.price,
+        productId: item?.id,
+        quantity: item?.qte,
+        price: item?.price,
     }));
 
     const { error: orderItemsError } = await supabase

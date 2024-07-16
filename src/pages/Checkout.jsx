@@ -6,7 +6,12 @@ import { useAddOrder } from "../hook/useAddOrder";
 import { useDeleteCart } from "../hook/cart/useDeleteCart";
 import { useDeleteLocalCart } from "../hook/cart/useDeleteLocalCart";
 import { calculateNewPrice, isWhitespace } from "../utils/helpers";
-import { phoneRegex } from "../utils/constants";
+import {
+    DESK_PRICE,
+    FREE_DELIVERY,
+    HOME_PRICE,
+    phoneRegex,
+} from "../utils/constants";
 
 import InputText from "../ui/InputText";
 import Loader from "../ui/Loader";
@@ -23,7 +28,7 @@ function Checkout() {
         }
     });
 
-    const { priceS, prodInfo, delivery, source } = state || {};
+    const { priceS, prodInfo, delivery, source, deliveryCost } = state || {};
 
     const price = Number(priceS);
 
@@ -60,16 +65,16 @@ function Checkout() {
     }, [user]);
 
     useEffect(() => {
-        if (price > 50) {
+        if (deliveryCost === "free" || price > FREE_DELIVERY) {
             setTotalAmount(price);
         } else {
             if (deliveryMethode === "Stop Desk") {
-                setTotalAmount(price + 5);
+                setTotalAmount(price + DESK_PRICE);
             } else {
-                setTotalAmount(price + 7);
+                setTotalAmount(price + HOME_PRICE);
             }
         }
-    }, [deliveryMethode, price]);
+    }, [deliveryMethode, price, deliveryCost]);
 
     function handleOrder() {
         if (!name || !phone || !country || !city) {
@@ -240,11 +245,7 @@ function Checkout() {
                     <div className="flex justify-between items-center">
                         <h6 className="capitalize font-bold text-xl">total</h6>
                         <p className="text-2xl font-bold text-bluegreen">
-                            {price > 50
-                                ? `$${calculateNewPrice(price, 0)}`
-                                : deliveryMethode === "Stop Desk"
-                                ? `$${calculateNewPrice(price + 5, 0)}`
-                                : `$${calculateNewPrice(price + 7, 0)}`}
+                            {`$${calculateNewPrice(totalAmount, 0)}`}
                         </p>
                     </div>
                 </div>

@@ -25,6 +25,7 @@ import Quantity from "../ui/Quantity";
 
 import { FaCartPlus } from "react-icons/fa6";
 import { IoBagCheckOutline } from "react-icons/io5";
+import { FREE_DELIVERY } from "../utils/constants";
 
 function ProductDetails() {
     const navigate = useNavigate();
@@ -156,6 +157,7 @@ function ProductDetails() {
                                             priceS: subTotal,
                                             prodInfo,
                                             source: "prodDetails",
+                                            deliveryCost: "normal",
                                         };
                                         navigate("/checkout", { state: data });
                                     }}
@@ -176,7 +178,10 @@ function ProductDetails() {
                                 {`Certified products`}
                             </div>
                             <div className="w-[320px] bg-green-200 text-sm capitalize pl-3 py-2 rounded-md text-[#333333] bg-opacity-50">
-                                {`Free delivery for orders over $50.00`}
+                                {`Free delivery for orders over $${calculateNewPrice(
+                                    FREE_DELIVERY,
+                                    0
+                                )}`}
                             </div>
                         </div>
                         {description !== null && (
