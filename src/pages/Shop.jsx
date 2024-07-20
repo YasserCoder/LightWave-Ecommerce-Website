@@ -47,19 +47,21 @@ function Products({ category, cats }) {
     const { screenSize: isSmallScreen } = useScreenSize(540);
     const [searchParams] = useSearchParams();
     const query = searchParams.get("q");
+    const status = searchParams.get("status") || "all";
+    const sortBy = searchParams.get("sortBy") || "";
 
     const [products, setProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
-    async function getProductsByCat(category) {
+    async function getProductsByCat({ category, status, sortBy }) {
         setIsLoading(true);
-        const data = await getProducts(category);
+        const data = await getProducts({ category, status, sortBy });
         setProducts(data);
         setIsLoading(false);
     }
     useEffect(() => {
-        getProductsByCat(category);
-    }, [category]);
+        getProductsByCat({ category, status, sortBy });
+    }, [category, status, sortBy]);
 
     console.log(products);
     return !query ? (
@@ -100,6 +102,10 @@ function Products({ category, cats }) {
                     <SortBy
                         options={[
                             {
+                                value: "",
+                                label: "Select an option",
+                            },
+                            {
                                 value: "name-desc",
                                 label: "Product Name : A-Z",
                             },
@@ -108,11 +114,11 @@ function Products({ category, cats }) {
                                 label: "Product Name : Z-A",
                             },
                             {
-                                value: "totalPrice-desc",
+                                value: "price-desc",
                                 label: "Price : Heigh-Low ",
                             },
                             {
-                                value: "totalPrice-asc",
+                                value: "price-asc",
                                 label: "Price : Low-Heigh ",
                             },
                         ]}
