@@ -1,7 +1,9 @@
+import { useEffect, useState } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
 
 import { useScreenSize } from "../hook/useScreenSize";
 import { useCategories } from "../hook/useCategories";
+import { getProducts } from "../services/apiProducts";
 
 import Path from "../ui/Path";
 import SideBar from "../ui/SideBar";
@@ -14,6 +16,7 @@ import Loader from "../ui/Loader";
 
 import { BsSortUp } from "react-icons/bs";
 import { MdSearchOff } from "react-icons/md";
+import { FaBoxOpen } from "react-icons/fa6";
 
 function Shop() {
     const { screenSize: isMediumScreen } = useScreenSize(1024);
@@ -40,11 +43,25 @@ function Shop() {
     );
 }
 
-function Products({ category, itemsNum = 12000, cats }) {
+function Products({ category, cats }) {
     const { screenSize: isSmallScreen } = useScreenSize(540);
     const [searchParams] = useSearchParams();
     const query = searchParams.get("q");
 
+    const [products, setProducts] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+
+    async function getProductsByCat(category) {
+        setIsLoading(true);
+        const data = await getProducts(category);
+        setProducts(data);
+        setIsLoading(false);
+    }
+    useEffect(() => {
+        getProductsByCat(category);
+    }, [category]);
+
+    console.log(products);
     return !query ? (
         <section className={`w-full overflow-x-hidden space-y-10`}>
             <Categories cats={cats} />
@@ -55,7 +72,7 @@ function Products({ category, itemsNum = 12000, cats }) {
                             ? "our Products"
                             : category}
                     </h1>
-                    <span className="text-grey text-sm sm:text-lg ">{`${itemsNum} items`}</span>
+                    <span className="text-grey text-sm sm:text-lg ">{`${products.length} items`}</span>
                 </div>
                 {!isSmallScreen && (
                     <Filter
@@ -112,19 +129,21 @@ function Products({ category, itemsNum = 12000, cats }) {
                     ]}
                 />
             )}
-            <div className="grid grid-cols-200 gap-2 px-1 xs:px-2 pb-5 lg:pb-7">
-                {Array.from({ length: 3 }, (_, index) => (
-                    <ProdCard key={index} id={1} />
-                ))}
-                {Array.from({ length: 3 }, (_, index) => (
-                    <ProdCard
-                        // name="osisudhdhd dudxxc xjxuxhxc isixwiux _swxxu uwxuxwhy swuxb"
-                        id={1}
-                        key={index}
-                    />
-                ))}
-            </div>
-            <Pagination count={120} />
+            {isLoading ? (
+                <Loader />
+            ) : products.length === 0 ? (
+                <EmptyCategory />
+            ) : (
+                <>
+                    <div className="grid grid-cols-200 gap-2 px-1 xs:px-2 pb-5 lg:pb-7">
+                        {products?.map((prod) => {
+                            return <ProdCard key={prod.id} id={prod.id} />;
+                        })}
+                    </div>
+
+                    <Pagination count={products.length} />
+                </>
+            )}
         </section>
     ) : (
         <ItemNotFound query={query} />
@@ -141,6 +160,16 @@ function ItemNotFound({ query }) {
             <p className="max-w-[170px] text-center">
                 {`there is no product named ${query}`}
             </p>
+        </div>
+    );
+}
+function EmptyCategory() {
+    return (
+        <div className="w-full flex flex-col justify-center items-center gap-y-5">
+            <FaBoxOpen className="size-[160px] text-bluegreen opacity-60 " />
+            <h3 className="text-3xl capitalize font-bold pt-5">
+                Empty Category
+            </h3>
         </div>
     );
 }

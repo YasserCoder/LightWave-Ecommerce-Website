@@ -1,9 +1,10 @@
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import ReactPaginate from "react-paginate";
 import { useSearchParams } from "react-router-dom";
-import { useScreenSize } from "../hook/useScreenSize";
 
-const PAGE_SIZE = 9;
+import { useScreenSize } from "../hook/useScreenSize";
+import { PAGE_SIZE } from "../utils/constants";
+
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 function Pagination({ count }) {
     const [searchParams, setSearchParams] = useSearchParams();

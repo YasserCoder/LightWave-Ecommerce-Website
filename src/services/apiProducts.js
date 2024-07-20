@@ -17,10 +17,59 @@ export async function getProductInfo(prodId) {
 
     const result = {
         ...data,
-        category: category,
+        category,
     };
 
     return result;
+}
+export async function getProducts(category) {
+    let prodsId = [];
+    async function getCategory(id) {
+        let { data, error } = await supabase
+            .from("category")
+            .select("id,product(id)")
+            .eq("parentId", id);
+        if (error) {
+            console.error(error.message);
+            throw new Error("get Category could not be loaded");
+        }
+
+        for (let item of data) {
+            if (item.product.length !== 0) {
+                for (let prod of item.product) {
+                    prodsId.push(prod);
+                }
+            }
+            await getCategory(item.id);
+        }
+    }
+    if (category === "all" || category === "shop") {
+        let { data, error } = await supabase.from("product").select("id");
+        if (error) {
+            console.error(error);
+            throw new Error("Products could not be loaded");
+        }
+        prodsId = [...data];
+    } else {
+        let { data, error } = await supabase
+            .from("category")
+            .select("id,product(id)")
+            .eq("name", category);
+        if (error) {
+            console.error(error.message);
+            throw new Error("Products could not be loaded");
+        }
+        for (let item of data) {
+            if (item.product.length !== 0) {
+                for (let prod of item.product) {
+                    prodsId.push(prod);
+                }
+            }
+            await getCategory(item.id);
+        }
+    }
+
+    return prodsId;
 }
 
 async function getCategoryPath(prodId) {
@@ -64,36 +113,3 @@ export async function getProductsListe(liste) {
     }
     return cartItems;
 }
-
-// async function getSpecifications(prodId) {
-//     let { data, error } = await supabase
-//         .from("prodSpecifications")
-//         .select("key,value")
-//         .eq("productId", prodId);
-//     if (error) {
-//         console.error(error);
-//         throw new Error("Specifications could not be loaded");
-//     }
-
-//     let result = {};
-//     let obj = {};
-//     Object.keys(data).map((key) => {
-//         obj = data[key];
-
-//         result[obj.key] = obj.value;
-//     });
-//     return result;
-// }
-
-// async function getImages(prodId) {
-//     let { data, error } = await supabase
-//         .from("prodImage")
-//         .select("imgUrl,imgAlt")
-//         .eq("productId", prodId);
-//     if (error) {
-//         console.error(error);
-//         throw new Error("Images could not be loaded");
-//     }
-
-//     return data;
-// }

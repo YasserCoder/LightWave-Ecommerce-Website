@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { calculateNewPrice } from "../utils/helpers";
-import { useProductDetails } from "../hook/useProductDetails";
+import { useProductDetails } from "../hook/products/useProductDetails";
 import { useUser } from "../hook/auth/useUser";
 import { useAddCartItem } from "../hook/cart/useAddCartItem";
 import { useAddLocalCartItem } from "../hook/cart/useAddLocalCartItem";

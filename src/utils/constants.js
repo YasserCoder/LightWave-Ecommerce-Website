@@ -6,3 +6,5 @@ export const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 export const DESK_PRICE = 5;
 export const HOME_PRICE = 7;
 export const FREE_DELIVERY = 50;
+
+export const PAGE_SIZE = 8;
