@@ -7,6 +7,7 @@ import "swiper/css";
 import styles from "../ui/brands.module.css";
 
 import { useGetDeal } from "../hook/deal/useGetDeal";
+import { useAnouncementProducts } from "../hook/products/useAnouncementProduts";
 
 import Hero from "../ui/Hero";
 import ProdCard from "../ui/ProdCard";
@@ -68,15 +69,16 @@ function OurBrands() {
 }
 
 function Anouncement({ title, latest, dest }) {
+    const { isLoading, products } = useAnouncementProducts(dest, 5);
+    if (isLoading) return <Loader />;
     return (
         <Section title={title}>
             <div className="grid grid-cols-220 gap-4 mb-10 lg:mb-16">
-                {Array.from({ length: 3 }, (_, index) => (
-                    <ProdCard key={index} latest={latest} id={1} />
-                ))}
-                {Array.from({ length: 2 }, (_, index) => (
-                    <ProdCard key={index} latest={latest} id={1} />
-                ))}
+                {products.map((prod) => {
+                    return (
+                        <ProdCard key={prod.id} latest={latest} id={prod.id} />
+                    );
+                })}
             </div>
             <div className="mx-auto w-fit">
                 <Link

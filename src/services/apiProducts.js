@@ -64,148 +64,74 @@ export async function getProductsListe(liste) {
     }
     return cartItems;
 }
-export async function getProducts({ category, status, sortBy }) {
-    let prodsId = [];
-    async function getProductsByCategory(id) {
-        let query = supabase
-            .from("category")
-            .select("id,product(id,name,created_at,sale,price)")
-            .eq("parentId", id);
-        let { data, error } = await query;
-        if (error) {
-            console.error(error.message);
-            throw new Error("get Category could not be loaded");
-        }
 
-        for (let item of data) {
-            if (item.product.length !== 0) {
-                for (let prod of item.product) {
-                    if (status === "sale") {
-                        if (prod["sale"] > 0) {
-                            prodsId = insertSorted(
-                                prodsId,
-                                prod,
-                                "sale",
-                                "desc"
-                            );
-                        }
-                    } else if (status === "latest") {
-                        prodsId = insertSorted(
-                            prodsId,
-                            prod,
-                            "created_at",
-                            "desc"
-                        );
-                    } else if (sortBy !== "") {
-                        const [column, order] = sortBy.split("-");
-                        prodsId = insertSorted(
-                            prodsId,
-                            prod,
-                            column,
-                            order,
-                            column === "name"
-                        );
-                    } else {
-                        prodsId.push(prod);
-                    }
-                }
-            }
-            await getProductsByCategory(item.id);
-        }
-    }
+export async function getProducts({
+    category,
+    status,
+    sortBy,
+    page,
+    pageSize,
+}) {
+    let query;
     if (category === "all" || category === "shop") {
-        let query = supabase
+        query = supabase
             .from("product")
-            .select("id,name,created_at,sale,price");
-
-        if (sortBy !== "") {
-            const [column, order] = sortBy.split("-");
-            query = query.order(column, { ascending: order === "asc" });
-        }
-        if (status === "sale") {
-            query = query.gt("sale", 0).order("sale", { ascending: false });
-        } else if (status === "latest") {
-            query = query.order("created_at", { ascending: false });
-        }
-
-        let { data, error } = await query;
-        if (error) {
-            console.error(error);
-            throw new Error("Products could not be loaded");
-        }
-        prodsId = data;
+            .select("id,name,created_at,sale,price", { count: "exact" });
     } else {
-        let query = supabase
+        let categoryArr = [];
+        let { data: categoryData, error: categoryError } = await supabase
             .from("category")
-            .select("id,product(id,name,created_at,sale,price)")
-            .eq("name", category);
-        let { data, error } = await query;
-        if (error) {
-            console.error(error.message);
+            .select("*");
+
+        if (categoryError) {
+            console.error(categoryError.message);
             throw new Error("Products could not be loaded");
         }
-        for (let item of data) {
-            if (item.product.length !== 0) {
-                for (let prod of item.product) {
-                    if (status === "sale") {
-                        if (prod["sale"] > 0) {
-                            prodsId = insertSorted(
-                                prodsId,
-                                prod,
-                                "sale",
-                                "desc"
-                            );
-                        }
-                    } else if (status === "latest") {
-                        prodsId = insertSorted(
-                            prodsId,
-                            prod,
-                            "created_at",
-                            "desc"
-                        );
-                    } else if (sortBy !== "") {
-                        const [column, order] = sortBy.split("-");
-                        prodsId = insertSorted(
-                            prodsId,
-                            prod,
-                            column,
-                            order,
-                            column === "name"
-                        );
-                    } else {
-                        prodsId.push(prod);
-                    }
-                }
-            }
-            await getProductsByCategory(item.id);
-        }
+        let parentCategoryId = categoryData.find(
+            (item) => item.name === category
+        )?.id;
+        categoryArr.push(parentCategoryId);
+        findChildren(categoryData, parentCategoryId, categoryArr);
+
+        query = supabase
+            .from("product")
+            .select("id,name,created_at,sale,price,categoryId", {
+                count: "exact",
+            })
+            .in(
+                "categoryId",
+                categoryArr.map((catId) => catId)
+            );
+    }
+    if (status === "sale") {
+        query = query.gt("sale", 0).order("sale", { ascending: false });
+    } else if (status === "latest") {
+        query = query.order("created_at", { ascending: false });
+    }
+    if (sortBy !== "") {
+        const [column, order] = sortBy.split("-");
+        query = query.order(column, { ascending: order === "asc" });
+    }
+    if (page) {
+        const from = (page - 1) * pageSize;
+        const to = from + pageSize - 1;
+        query = query.range(from, to);
     }
 
-    return prodsId;
+    let { data, error, count } = await query;
+    if (error) {
+        console.error(error);
+        throw new Error("Products could not be loaded");
+    }
+
+    return { data, count };
 }
 
-function insertSorted(arr, item, key, order, string = false) {
-    let index;
-    if (string) {
-        index = arr.findIndex((element) =>
-            order === "asc"
-                ? element[key].localeCompare(item[key]) < 0
-                : element[key].localeCompare(item[key]) > 0
-        );
-        console.log("isString", order);
-    } else {
-        index = arr.findIndex((element) =>
-            order === "asc"
-                ? element[key] > item[key]
-                : element[key] < item[key]
-        );
+function findChildren(data, idParent, categoryArr) {
+    for (const category of data) {
+        if (category.parentId === idParent) {
+            categoryArr.push(category.id);
+            findChildren(data, category.id, categoryArr);
+        }
     }
-
-    if (index === -1) {
-        arr.push(item);
-    } else {
-        arr.splice(index, 0, item);
-    }
-
-    return arr;
 }
