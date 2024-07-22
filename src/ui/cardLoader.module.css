@@ -1,0 +1,80 @@
+.cardLoader {
+    height: 390px;
+    width: 235px;
+    background-color: #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.loaderImg {
+    height: 225px;
+    width: 100%;
+    background-color: #f0f0f0;
+    animation: glowing 1.5s infinite;
+}
+
+.loaderInfo {
+    height: 122px;
+    width: 100%;
+    padding: 16px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.loaderLine {
+    height: 16px;
+    background-color: #d0d0d0;
+    border-radius: 4px;
+}
+
+.loaderLine.short {
+    width: 75%;
+}
+
+.loaderIcons {
+    height: 43px;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 16px;
+    box-sizing: border-box;
+}
+
+.loaderIcon {
+    height: 24px;
+    width: 24px;
+    background-color: #d0d0d0;
+    border-radius: 50%;
+}
+
+@keyframes pulse {
+    0% {
+        background-color: #e0e0e0;
+    }
+    50% {
+        background-color: #f0f0f0;
+    }
+    100% {
+        background-color: #e0e0e0;
+    }
+}
+
+@keyframes glowing {
+    0% {
+        background-color: #f0f0f0;
+    }
+    50% {
+        background-color: #e0e0e0;
+    }
+    100% {
+        background-color: #f0f0f0;
+    }
+}

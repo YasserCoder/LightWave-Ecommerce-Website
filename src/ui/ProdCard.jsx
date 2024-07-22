@@ -8,7 +8,7 @@ import { useAddCartItem } from "../hook/cart/useAddCartItem";
 import { useAddLocalCartItem } from "../hook/cart/useAddLocalCartItem";
 
 import LikeBtn from "./LikeBtn";
-import Loader from "./Loader";
+import CardLoader from "./CardLoader";
 
 import { FaCartPlus } from "react-icons/fa6";
 import { FaRegEye } from "react-icons/fa";
@@ -30,7 +30,7 @@ function ProdCard({ latest = false, id }) {
     const { isInserting, addCartItem } = useAddCartItem();
     const { isAdding, addLocalCartItem } = useAddLocalCartItem();
 
-    if (isLoading || isConnecting) return <Loader />;
+    if (isLoading || isConnecting) return <CardLoader />;
 
     return (
         <div className={`shadow-lg flex flex-col relative z-0 `}>
