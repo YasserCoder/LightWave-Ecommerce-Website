@@ -1,8 +1,11 @@
-import { useState } from "react";
-import Button from "./Button";
-import { useScreenSize } from "../hook/useScreenSize";
-import { FaSearch } from "react-icons/fa";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+
+import { useScreenSize } from "../hook/useScreenSize";
+
+import Button from "./Button";
+
+import { FaSearch } from "react-icons/fa";
 
 function SearchBar() {
     const [value, setValue] = useState("");
@@ -21,8 +24,12 @@ function SearchBar() {
         } else {
             navigate(`/shop?q=${value}`);
         }
-        setValue("");
     }
+    useEffect(() => {
+        if (!searchParams.get("q")) {
+            setValue("");
+        }
+    }, [searchParams]);
     return (
         <form className="flex items-center flex-1  md:flex-auto">
             <input

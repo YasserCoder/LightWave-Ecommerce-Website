@@ -71,6 +71,7 @@ export async function getProducts({
     sortBy,
     page,
     pageSize,
+    searchQuery,
 }) {
     let query;
     if (category === "all" || category === "shop") {
@@ -116,6 +117,11 @@ export async function getProducts({
         const from = (page - 1) * pageSize;
         const to = from + pageSize - 1;
         query = query.range(from, to);
+    }
+    if (searchQuery) {
+        query = query.or(
+            `name.ilike.%${searchQuery}%,brand.ilike.%${searchQuery}%`
+        );
     }
 
     let { data, error, count } = await query;

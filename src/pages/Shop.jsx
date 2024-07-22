@@ -15,7 +15,7 @@ import Pagination from "../ui/Pagination";
 import Loader from "../ui/Loader";
 
 import { BsSortUp } from "react-icons/bs";
-// import { MdSearchOff } from "react-icons/md";
+import { MdSearchOff } from "react-icons/md";
 import { FaBoxOpen } from "react-icons/fa6";
 
 function Shop() {
@@ -46,13 +46,12 @@ function Shop() {
 function Products({ category, cats }) {
     const { screenSize: isSmallScreen } = useScreenSize(540);
     const [searchParams] = useSearchParams();
-    // const query = searchParams.get("q");
+    const query = searchParams.get("q");
     const currentPage = !searchParams.get("page")
         ? 1
         : Number(searchParams.get("page"));
     const { isLoading, products, count } = useGetProducts(PAGE_SIZE);
 
-    console.log(products);
     return (
         <section className={`w-full overflow-x-hidden space-y-10`}>
             <Categories cats={cats} />
@@ -82,7 +81,11 @@ function Products({ category, cats }) {
             {isLoading ? (
                 <Loader />
             ) : count === 0 ? (
-                <EmptyCategory />
+                query ? (
+                    <ItemNotFound />
+                ) : (
+                    <EmptyCategory />
+                )
             ) : (
                 <>
                     <div
@@ -153,19 +156,19 @@ function Products({ category, cats }) {
     );
 }
 
-// function ItemNotFound({ query }) {
-//     return (
-//         <div className="w-full flex flex-col justify-center items-center gap-y-5">
-//             <MdSearchOff className="size-[160px] text-bluegreen opacity-60 " />
-//             <h3 className="text-3xl capitalize font-bold pt-5">
-//                 product not found
-//             </h3>
-//             <p className="max-w-[170px] text-center">
-//                 {`there is no product named ${query}`}
-//             </p>
-//         </div>
-//     );
-// }
+function ItemNotFound({ query }) {
+    return (
+        <div className="w-full flex flex-col justify-center items-center gap-y-5">
+            <MdSearchOff className="size-[160px] text-bluegreen opacity-60 " />
+            <h3 className="text-3xl capitalize font-bold pt-5">
+                product not found
+            </h3>
+            <p className="max-w-[170px] text-center">
+                {`there is no product named ${query}`}
+            </p>
+        </div>
+    );
+}
 function EmptyCategory() {
     return (
         <div className="w-full flex flex-col justify-center items-center gap-y-5">

@@ -18,9 +18,10 @@ export function useGetProducts(pageSize) {
     const page = !searchParams.get("page")
         ? 1
         : Number(searchParams.get("page"));
+    const searchQuery = searchParams.get("q");
 
     const { isLoading, data: { data: products, count } = {} } = useQuery({
-        queryKey: ["products", category, status, sortBy, page],
+        queryKey: ["products", category, status, sortBy, page, searchQuery],
         queryFn: () =>
             getProducts({
                 category,
@@ -28,6 +29,7 @@ export function useGetProducts(pageSize) {
                 sortBy,
                 page,
                 pageSize,
+                searchQuery,
             }),
     });
 
