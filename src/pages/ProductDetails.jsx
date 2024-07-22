@@ -12,6 +12,8 @@ import { useProductDetails } from "../hook/products/useProductDetails";
 import { useAddCartItem } from "../hook/cart/useAddCartItem";
 import { useAddLocalCartItem } from "../hook/cart/useAddLocalCartItem";
 import { useUser } from "../hook/auth/useUser";
+import { useSimilarProducts } from "../hook/products/useSimilarProducts";
+import { FREE_DELIVERY } from "../utils/constants";
 
 import Path from "../ui/Path";
 import Loader from "../ui/Loader";
@@ -25,7 +27,6 @@ import Quantity from "../ui/Quantity";
 
 import { FaCartPlus } from "react-icons/fa6";
 import { IoBagCheckOutline } from "react-icons/io5";
-import { FREE_DELIVERY } from "../utils/constants";
 
 function ProductDetails() {
     const navigate = useNavigate();
@@ -46,6 +47,7 @@ function ProductDetails() {
         specifications,
         garantee,
         name,
+        categoryId,
         inWishlist,
     } = { ...productInfo };
 
@@ -208,20 +210,36 @@ function ProductDetails() {
                     </div>
                 </div>
             </div>
-            <Section title="similar products">
-                <div className="grid grid-cols-200 gap-4 ">
-                    {Array.from({ length: 3 }, (_, index) => (
-                        <ProdCard key={index} id={1} />
-                    ))}
-                    {Array.from({ length: 2 }, (_, index) => (
-                        <ProdCard key={index} id={6} />
-                    ))}
-                </div>
-            </Section>
+            <SimilarProducts
+                id={productId}
+                name={name}
+                brand={brand}
+                categoryId={categoryId}
+            />
             <Section title={"Our Services"}>
                 <Services />
             </Section>
         </>
+    );
+}
+function SimilarProducts({ id, name, brand, categoryId }) {
+    const { isLoading, similarProducts } = useSimilarProducts(
+        id,
+        name,
+        brand,
+        categoryId
+    );
+    if (isLoading) return <Loader />;
+    return (
+        similarProducts.length !== 0 && (
+            <Section title="similar products">
+                <div className="grid grid-cols-200 gap-4 ">
+                    {similarProducts.map((prod) => {
+                        return <ProdCard id={prod.id} key={prod.id} />;
+                    })}
+                </div>
+            </Section>
+        )
     );
 }
 

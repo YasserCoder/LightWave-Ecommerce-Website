@@ -141,3 +141,19 @@ function findChildren(data, idParent, categoryArr) {
         }
     }
 }
+
+export async function getSimilarProducts({ name, brand, categoryId }) {
+    let query = supabase
+        .from("product")
+        .select("id,name,created_at,sale,price,categoryId")
+        .range(0, 4)
+        .or(`categoryId.eq.${categoryId},brand.ilike.%${brand}%`)
+        .neq("name", name);
+
+    let { data, error } = await query;
+    if (error) {
+        console.error(error.message);
+        throw new Error("Products could not be loaded");
+    }
+    return data;
+}
