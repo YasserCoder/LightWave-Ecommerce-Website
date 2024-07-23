@@ -13,3 +13,12 @@ export async function getDeal(id) {
 
     return data;
 }
+export async function getDeals() {
+    let { data, error } = await supabase.from("deal").select("id");
+    if (error) {
+        console.log(error.message);
+        throw new Error(error.message);
+    }
+
+    return data;
+}

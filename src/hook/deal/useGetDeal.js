@@ -4,7 +4,7 @@ import { getDeal } from "../../services/apiDeal";
 export function useGetDeal(id) {
     const { isLoading: isGetting, data: deal } = useQuery({
         queryKey: ["deal", id],
-        queryFn: () => getDeal(1),
+        queryFn: () => getDeal(id),
     });
 
     return { isGetting, deal };
