@@ -10,7 +10,7 @@ function Hero() {
     }
     return (
         <section className="w-full bg-[#f9f9f9]   bg-opacity-80 overflow-hidden mb-[40px] md:mb-[60px] xl:mb-[90px]">
-            <div className="relative container min-h-[350px] max-h-[500px] flex justify-center overflow-hidden">
+            <div className="relative 2xl:container min-h-[350px] max-h-[500px] flex justify-center overflow-hidden">
                 <img
                     src={background}
                     alt="back"

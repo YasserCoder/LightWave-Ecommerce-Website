@@ -8,7 +8,6 @@ import AppLayout from "./ui/AppLayout";
 import Home from "./pages/Home";
 import PageNotFound from "./pages/PageNotFound";
 import Login from "./pages/Login";
-import AdminLogin from "./pages/AdminLogin";
 import Register from "./pages/Register";
 import WishList from "./pages/WishList";
 import Cart from "./pages/Cart";
@@ -69,7 +68,6 @@ function App() {
                         <Route path="shop/*" element={<Shop />} />
                     </Route>
 
-                    <Route path="adminLogin" element={<AdminLogin />} />
                     <Route path="*" element={<PageNotFound />} />
                 </Routes>
             </BrowserRouter>
