@@ -4,7 +4,7 @@ LIGHTWAVE is an online store that specializes in selling electrical supplies. Th
 
 ## Live Demo
 
-Check out the live demo of the project [here](https://your-live-demo-link.com).
+Check out the live demo of the project [here](https://light-wave.vercel.app).
 
 ## Features
 
