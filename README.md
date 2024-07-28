@@ -44,8 +44,17 @@ Follow these steps to set up the project locally:
     ```bash
     npm install
     ```
+    
+3. **Set up Supabase**:
+    - Create a project on Supabase.
+    - Copy the Supabase project URL and the API key.
+    - Create a `.env` file in the root directory and add the following:
+      ```env
+      VITE_SUPABASE_URL=your_supabase_url
+      VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+      ```
 
-3. **Start the development server**:
+4. **Start the development server**:
     ```bash
     npm run dev
     ```
