@@ -95,7 +95,7 @@ function Anouncement({ title, latest, dest }) {
 
 function BestDeals() {
     const prevRef = useRef(null);
-    const nextRef = useRef(null);
+    const nextRef = useRef();
     const { isGetting, deals } = useGetDeals();
 
     useEffect(() => {
@@ -108,6 +108,22 @@ function BestDeals() {
     return (
         <Section title={"best deals"}>
             <div className="relative w-[80%] mx-auto">
+                <button
+                    ref={prevRef}
+                    className={`absolute top-[50%] z-20 translate-y-[-50%] -left-[42px] sm:-left-13 md:-left-16 lg:-left-20 xl:text-5xl size-8 md:size-12 xl:size-16 flex items-center justify-center rounded-full hover:bg-bluegreen hover:text-secondary hover:scale-110 text-xl md:text-3xl cursor-pointer duration-300 ${
+                        deals.length > 2 ? "" : "hidden"
+                    }`}
+                >
+                    <FaAngleLeft />
+                </button>
+                <button
+                    ref={nextRef}
+                    className={`absolute top-[50%] z-20 translate-y-[-50%] -right-[42px] sm:-right-13 md:-right-16 lg:-right-20 xl:text-5xl size-8 md:size-12 xl:size-16 flex items-center justify-center rounded-full hover:bg-bluegreen hover:text-secondary hover:scale-110 text-xl md:text-3xl cursor-pointer duration-300 ${
+                        deals.length > 2 ? "" : "hidden"
+                    }`}
+                >
+                    <FaAngleRight />
+                </button>
                 <Swiper
                     modules={[Navigation]}
                     spaceBetween={30}
@@ -139,21 +155,6 @@ function BestDeals() {
                         );
                     })}
                 </Swiper>
-
-                <button
-                    ref={prevRef}
-                    className={`absolute top-[50%] z-20 translate-y-[-50%] -left-[42px] sm:-left-13 md:-left-16 lg:-left-20 xl:text-5xl size-8 md:size-12 xl:size-16 flex items-center justify-center rounded-full hover:bg-bluegreen hover:text-secondary hover:scale-110 text-xl md:text-3xl cursor-pointer duration-300`}
-                >
-                    <FaAngleLeft />
-                </button>
-                <button
-                    ref={nextRef}
-                    className={`absolute top-[50%] z-20 translate-y-[-50%] -right-[42px] sm:-right-13 md:-right-16 lg:-right-20 xl:text-5xl size-8 md:size-12 xl:size-16 items-center justify-center rounded-full hover:bg-bluegreen hover:text-secondary hover:scale-110 text-xl md:text-3xl cursor-pointer duration-300 ${
-                        deals.length > 2 ? "flex" : "hidden"
-                    }`}
-                >
-                    <FaAngleRight />
-                </button>
             </div>
         </Section>
     );
