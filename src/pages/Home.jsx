@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
@@ -95,31 +95,25 @@ function Anouncement({ title, latest, dest }) {
 
 function BestDeals() {
     const prevRef = useRef(null);
-    const nextRef = useRef();
+    const nextRef = useRef(null);
     const { isGetting, deals } = useGetDeals();
 
-    useEffect(() => {
-        if (prevRef.current && nextRef.current) {
-            console.log("Prev and Next refs are set");
-        }
-    }, [prevRef, nextRef]);
-    
     if (isGetting) return <Loader />;
     return (
         <Section title={"best deals"}>
             <div className="relative w-[80%] mx-auto">
                 <button
                     ref={prevRef}
-                    className={`absolute top-[50%] z-20 translate-y-[-50%] -left-[42px] sm:-left-13 md:-left-16 lg:-left-20 xl:text-5xl size-8 md:size-12 xl:size-16 flex items-center justify-center rounded-full hover:bg-bluegreen hover:text-secondary hover:scale-110 text-xl md:text-3xl cursor-pointer duration-300 ${
-                        deals.length > 2 ? "" : "hidden"
+                    className={`absolute top-[50%] z-20 translate-y-[-50%] -left-[42px] sm:-left-13 md:-left-16 lg:-left-20 xl:text-5xl size-8 md:size-12 xl:size-16 items-center justify-center rounded-full hover:bg-bluegreen hover:text-secondary hover:scale-110 text-xl md:text-3xl cursor-pointer duration-300 ${
+                        deals.length > 2 ? "flex" : "hidden"
                     }`}
                 >
                     <FaAngleLeft />
                 </button>
                 <button
                     ref={nextRef}
-                    className={`absolute top-[50%] z-20 translate-y-[-50%] -right-[42px] sm:-right-13 md:-right-16 lg:-right-20 xl:text-5xl size-8 md:size-12 xl:size-16 flex items-center justify-center rounded-full hover:bg-bluegreen hover:text-secondary hover:scale-110 text-xl md:text-3xl cursor-pointer duration-300 ${
-                        deals.length > 2 ? "" : "hidden"
+                    className={`absolute top-[50%] z-20 translate-y-[-50%] -right-[42px] sm:-right-13 md:-right-16 lg:-right-20 xl:text-5xl size-8 md:size-12 xl:size-16 items-center justify-center rounded-full hover:bg-bluegreen hover:text-secondary hover:scale-110 text-xl md:text-3xl cursor-pointer duration-300 ${
+                        deals.length > 2 ? "flex" : "hidden"
                     }`}
                 >
                     <FaAngleRight />

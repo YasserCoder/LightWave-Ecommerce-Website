@@ -51,6 +51,14 @@ function Categories({ cats }) {
                 <FaAngleLeft />
             </button>
 
+            <button
+                ref={nextRef}
+                className={`absolute top-[50%] z-20 translate-y-[-50%] right-1 size-9  items-center justify-center rounded-full hover:bg-bluegreen hover:text-secondary hover:scale-110 text-lg cursor-pointer duration-300 ${
+                    isEnd ? "hidden" : "flex"
+                }`}
+            >
+                <FaAngleRight />
+            </button>
             <div className=" mx-10">
                 <ul
                     className={` text-grey overflow-x-clip w-full pb-5 text-[17px] whitespace-nowrap`}
@@ -114,14 +122,6 @@ function Categories({ cats }) {
                     </Swiper>
                 </ul>
             </div>
-            <button
-                ref={nextRef}
-                className={`absolute top-[50%] z-20 translate-y-[-50%] right-1 size-9  items-center justify-center rounded-full hover:bg-bluegreen hover:text-secondary hover:scale-110 text-lg cursor-pointer duration-300 ${
-                    isEnd ? "hidden" : "flex"
-                }`}
-            >
-                <FaAngleRight />
-            </button>
         </div>
     );
 }
