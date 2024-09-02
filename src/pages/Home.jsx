@@ -128,7 +128,6 @@ function BestDeals() {
                     onInit={(swiper) => {
                         swiper.params.navigation.prevEl = prevRef.current;
                         swiper.params.navigation.nextEl = nextRef.current;
-                        console.log("Swiper initialized", swiper);
                         swiper.navigation.init();
                         swiper.navigation.update();
                     }}

@@ -7,7 +7,6 @@ export async function signup({ email, password, name, phone }) {
         options: {
             data: {
                 name,
-                authority: "user",
                 phone,
                 email,
                 pwd: password,
@@ -16,6 +15,15 @@ export async function signup({ email, password, name, phone }) {
     });
 
     if (error) throw new Error(error.message);
+
+    const { error: registerError } = await supabase
+        .from("profile")
+        .insert([{ id: data.user.id, email, name, phone, authority: "user" }]);
+
+    if (registerError) {
+        console.log(registerError.message);
+        throw new Error(registerError.message);
+    }
 
     return data;
 }
@@ -73,6 +81,15 @@ export async function updateUser({
     if (error) {
         console.log(error.message);
         throw new Error(error.message);
+    }
+    const { error: profileError } = await supabase
+        .from("profile")
+        .update({ name, phone, country, city, postCode, adress, email })
+        .eq("id", data.user.id);
+
+    if (profileError) {
+        console.log(profileError.message);
+        throw new Error(profileError.message);
     }
     return data;
 }
