@@ -249,6 +249,32 @@ function ProdImg({ imgs }) {
     return (
         <div className="h-fit lg:sticky lg:top-5">
             <Swiper
+                onSwiper={setThumbsSwiper}
+                spaceBetween={10}
+                slidesPerView={4}
+                freeMode={true}
+                watchSlidesProgress={true}
+                modules={[FreeMode, Navigation, Thumbs]}
+                className={`lg:w-[520px] xl:w-[600px] bg-gray-100 py-2 ${
+                    imgs.length < 1 && "hidden"
+                }`}
+            >
+                {imgs.map((pic, i) => {
+                    return (
+                        <SwiperSlide
+                            className="cursor-pointer opacity-40"
+                            key={i}
+                        >
+                            <img
+                                src={pic.imgUrl}
+                                alt={pic.imgAlt}
+                                className="h-full object-contain shadow-md"
+                            />
+                        </SwiperSlide>
+                    );
+                })}
+            </Swiper>
+            <Swiper
                 style={{
                     "--swiper-navigation-color": "#15616d",
                     "--swiper-pagination-color": "#fff",
@@ -270,33 +296,6 @@ function ProdImg({ imgs }) {
                                 src={pic.imgUrl}
                                 alt={pic.imgAlt}
                                 className="h-full w-fit  object-contain"
-                            />
-                        </SwiperSlide>
-                    );
-                })}
-            </Swiper>
-
-            <Swiper
-                onSwiper={setThumbsSwiper}
-                spaceBetween={10}
-                slidesPerView={4}
-                freeMode={true}
-                watchSlidesProgress={true}
-                modules={[FreeMode, Navigation, Thumbs]}
-                className={`lg:w-[520px] xl:w-[600px] bg-gray-100 py-2 ${
-                    imgs.length < 1 && "hidden"
-                }`}
-            >
-                {imgs.map((pic, i) => {
-                    return (
-                        <SwiperSlide
-                            className="cursor-pointer opacity-40"
-                            key={i}
-                        >
-                            <img
-                                src={pic.imgUrl}
-                                alt={pic.imgAlt}
-                                className="h-full object-contain shadow-md"
                             />
                         </SwiperSlide>
                     );
