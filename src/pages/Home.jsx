@@ -84,7 +84,7 @@ function Anouncement({ title, latest, dest }) {
             <div className="mx-auto w-fit">
                 <Link
                     to={`/shop?status=${dest}`}
-                    className="bg-bluegreen py-[10px] text-secondary capitalize font-medium text-lg px-10 rounded-1 active:bg-bluegreen hover:bg-hovercol hover:text-bluegreen active:text-secondary"
+                    className="bg-bluegreen text-nowrap py-[10px] text-secondary capitalize font-medium text-lg px-10 rounded-1 active:bg-bluegreen hover:bg-hovercol hover:text-bluegreen active:text-secondary"
                 >
                     load more
                 </Link>
