@@ -13,7 +13,10 @@ export async function getProductInfo(prodId) {
         throw new Error("Product could not be loaded");
     }
 
-    const category = await getCategoryPath(data.categoryId);
+    const category =
+        data.categoryId === null
+            ? ["all"]
+            : await getCategoryPath(data.categoryId);
 
     const result = {
         ...data,
