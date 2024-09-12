@@ -150,7 +150,11 @@ export async function getSimilarProducts({ name, brand, categoryId }) {
         .from("product")
         .select("id,name,created_at,sale,price,categoryId")
         .range(0, 4)
-        .or(`categoryId.eq.${categoryId},brand.ilike.%${brand}%`)
+        .or(
+            `categoryId.eq.${
+                categoryId === null ? 0 : categoryId
+            },brand.ilike.%${brand}%`
+        )
         .neq("name", name);
 
     let { data, error } = await query;
