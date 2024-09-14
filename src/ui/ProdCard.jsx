@@ -38,16 +38,18 @@ function ProdCard({ latest = false, id }) {
                 <span className="absolute h-full w-full bg-secondary z-10 opacity-65"></span>
             )}
             <div className={`relative h-56 overflow-hidden `}>
-                <Link
-                    to={`/product/${id}`}
-                    className="h-full flex justify-center"
-                >
-                    <img
-                        src={imgs.at(0).imgUrl}
-                        alt={imgs.at(0).imgAlt}
-                        className="object-contain"
-                    />
-                </Link>
+                {imgs.length > 0 && (
+                    <Link
+                        to={`product/${id}`}
+                        className="h-full flex justify-center"
+                    >
+                        <img
+                            src={imgs.at(0).imgUrl}
+                            alt={imgs.at(0).imgAlt}
+                            className="object-contain"
+                        />
+                    </Link>
+                )}
                 {latest && (
                     <span className="absolute size-[40px] left-2 top-2">
                         <img src={newicon} alt="new" />
