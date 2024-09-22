@@ -293,11 +293,13 @@ function CartItem({ item, user, setUpdatedItems, isDeleting, deleteCartItem }) {
         <div className="flex relative flex-col lg:flex-row gap-5 overflow-hidden border border-[#BDBDBD] p-6 rounded-md shadow-md">
             <div className="flex gap-[10px] items-center">
                 <div className="flex justify-center items-center">
-                    <img
-                        src={item.product.imgs[0].imgUrl}
-                        alt={item.product.imgs[0].imgAlt}
-                        className="object-contain h-28 min-w-24 xs:min-w-36 sm:min-w-40 xl:min-w-48"
-                    />
+                    {item.product.imgs.length > 0 && (
+                        <img
+                            src={item.product.imgs[0].imgUrl}
+                            alt={item.product.imgs[0].imgAlt}
+                            className="object-contain h-28 min-w-24 xs:min-w-36 sm:min-w-40 xl:min-w-48"
+                        />
+                    )}
                 </div>
                 <p className="text-xl font-bold lg:max-w-[400px] xl:max-w-[500px]">
                     <Link

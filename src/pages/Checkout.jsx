@@ -105,7 +105,7 @@ function Checkout() {
             customerName: name,
             customerPhone: phone,
             note,
-            shippingAdress: `${country},${city},${adress}-${postCode}-`,
+            shippingAdress: `${adress}-${postCode}-${country},${city}`,
         };
         addOrder(
             { orderData, prodInfo },
