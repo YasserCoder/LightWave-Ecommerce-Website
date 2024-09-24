@@ -88,9 +88,9 @@ function Form() {
             return;
         }
         let messageData = {
-            customerEmail: email,
-            customerName: name,
-            customerPhone: phone,
+            email: email,
+            name: name,
+            phone: phone,
             content: message,
         };
         sendMessage(messageData, {
