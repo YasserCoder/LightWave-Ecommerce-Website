@@ -40,7 +40,7 @@ function ProdCard({ latest = false, id }) {
             <div className={`relative h-56 overflow-hidden `}>
                 {imgs.length > 0 && (
                     <Link
-                        to={`product/${id}`}
+                        to={`/product/${id}`}
                         className="h-full flex justify-center"
                     >
                         <img
