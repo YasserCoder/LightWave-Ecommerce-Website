@@ -1,7 +1,9 @@
+import { useNavigate } from "react-router-dom";
+
+import Button from "./Button";
+
 import { MdOpenInNew } from "react-icons/md";
 import background from "./../assets/backwhite.jpg";
-import { useNavigate } from "react-router-dom";
-import Button from "./Button";
 
 function Hero() {
     const navigate = useNavigate();
@@ -15,6 +17,7 @@ function Hero() {
                     src={background}
                     alt="back"
                     className="w-full object-cover h-auto"
+                    loading="lazy"
                 />
                 <div className="absolute text-lg left-[8%] md:left-16 lg:left-32 text-[#939b9b] top-[50%] lg:text-xl translate-y-[-50%] max-w-[55%] lg:max-w-[500px] space-y-3  sm:space-y-5 lg:space-y-8">
                     <p>

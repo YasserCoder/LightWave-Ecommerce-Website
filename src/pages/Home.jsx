@@ -178,7 +178,7 @@ function Deal({ id }) {
     if (isGetting) return <Loader />;
     return (
         <div className="relative border">
-            <img src={img} alt="announce" />
+            <img src={img} alt="announce" loading="lazy" />
             <button
                 className="absolute left-3 bottom-4 sm:bottom-8 sm:left-6 lg:bottom-10 xl:bottom-12 xl:left-9 text-lg xl:text-xl xl:font-semibold flex items-center font-semibold  gap-1  text-bluegreen hover:text-hovercol"
                 onClick={handleBuy}

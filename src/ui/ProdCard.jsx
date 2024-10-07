@@ -47,6 +47,7 @@ function ProdCard({ latest = false, id }) {
                             src={imgs.at(0).imgUrl}
                             alt={imgs.at(0).imgAlt}
                             className="object-contain"
+                            loading="lazy"
                         />
                     </Link>
                 )}

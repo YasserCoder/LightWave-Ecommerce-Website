@@ -274,6 +274,7 @@ function ProdImg({ imgs }) {
                                 src={pic.imgUrl}
                                 alt={pic.imgAlt}
                                 className="h-full w-fit  object-contain"
+                                loading="lazy"
                             />
                         </SwiperSlide>
                     );
@@ -301,6 +302,7 @@ function ProdImg({ imgs }) {
                                 src={pic.imgUrl}
                                 alt={pic.imgAlt}
                                 className="h-full object-contain shadow-md"
+                                loading="lazy"
                             />
                         </SwiperSlide>
                     );
