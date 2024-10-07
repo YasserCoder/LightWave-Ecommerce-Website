@@ -116,6 +116,12 @@ export async function getProducts({
         const [column, order] = sortBy.split("-");
         query = query.order(column, { ascending: order === "asc" });
     }
+    let { count } = await query;
+    const totalPages = Math.ceil(count / pageSize);
+
+    if (page > totalPages) {
+        page = totalPages;
+    }
     if (page) {
         const from = (page - 1) * pageSize;
         const to = from + pageSize - 1;
@@ -127,7 +133,7 @@ export async function getProducts({
         );
     }
 
-    let { data, error, count } = await query;
+    let { data, error } = await query;
     if (error) {
         console.error(error);
         throw new Error("Products could not be loaded");
