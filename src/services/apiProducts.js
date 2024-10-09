@@ -116,6 +116,11 @@ export async function getProducts({
         const [column, order] = sortBy.split("-");
         query = query.order(column, { ascending: order === "asc" });
     }
+    if (searchQuery) {
+        query = query.or(
+            `name.ilike.%${searchQuery}%,brand.ilike.%${searchQuery}%`
+        );
+    }
     let { count } = await query;
     const totalPages = Math.ceil(count / pageSize);
 
@@ -126,11 +131,6 @@ export async function getProducts({
         const from = (page - 1) * pageSize;
         const to = from + pageSize - 1;
         query = query.range(from, to);
-    }
-    if (searchQuery) {
-        query = query.or(
-            `name.ilike.%${searchQuery}%,brand.ilike.%${searchQuery}%`
-        );
     }
 
     let { data, error } = await query;
