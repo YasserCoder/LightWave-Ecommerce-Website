@@ -8,8 +8,6 @@ export function useDeleteCartItem() {
     const { isLoading: isDeleting, mutate: deleteCartItem } = useMutation({
         mutationFn: deleteCartItemApi,
         onSuccess: () => {
-            toast.success("Cart item successfully deleted");
-
             queryClient.invalidateQueries({
                 queryKey: ["cart"],
             });

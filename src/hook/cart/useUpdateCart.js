@@ -8,7 +8,6 @@ export function useUpdateCart() {
     const { mutate: updateCartItem, isLoading: isUpdating } = useMutation({
         mutationFn: updateQuantity,
         onSuccess: () => {
-            toast.success("Cart item successfully updated");
             queryClient.invalidateQueries({ queryKey: ["cart"] });
         },
         onError: (err) => toast.error(err.message),

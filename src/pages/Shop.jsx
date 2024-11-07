@@ -113,11 +113,11 @@ function Products({ category, cats }) {
                                         label: "Select an option",
                                     },
                                     {
-                                        value: "name-desc",
+                                        value: "name-asc",
                                         label: "Product Name : A-Z",
                                     },
                                     {
-                                        value: "name-asc",
+                                        value: "name-desc",
                                         label: "Product Name : Z-A",
                                     },
                                     {

@@ -6,7 +6,7 @@ export function useAddOrder() {
     const { mutate: addOrder, isLoading: isInserting } = useMutation({
         mutationFn: addOrderApi,
         onSuccess: () => {
-            toast.success("Order has been successfuly send");
+            toast.success("Order has been successfuly sent");
         },
         onError: (err) => {
             toast.error(err.message);
