@@ -35,8 +35,7 @@ Follow these steps to set up the project locally:
 1. **Clone the repository**:
 
     ```bash
-    git clone https://github.com/yourusername/lightwave.git
-    cd lightwave
+    git clone https://github.com/YasserCoder/LightWave-Ecommerce-Website.git
     ```
 
 2. **Install dependencies**:
@@ -85,6 +84,3 @@ For any questions or feedback, please reach out to:
 -   **Email**: yasser.laiss01@gmail.com
 -   **GitHub**: [YasserCoder](https://github.com/YasserCoder)
 
-
-
-**Note**: The website dashboard is currently under production.
