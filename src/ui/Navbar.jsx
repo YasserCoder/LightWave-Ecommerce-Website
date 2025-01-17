@@ -51,7 +51,10 @@ function Navbar() {
                         className="hover:text-bluegreen duration-700 flex items-center"
                     >
                         <FaCartShopping className="size-5" />
-                        <span className="text-xl">{`(${
+                        <span
+                            className="text-xl"
+                            data-testid="item number"
+                        >{`(${
                             isConnecting || isLoading
                                 ? ""
                                 : user?.role !== "authenticated"

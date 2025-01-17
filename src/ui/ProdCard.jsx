@@ -48,6 +48,7 @@ function ProdCard({ latest = false, id }) {
                             alt={imgs.at(0).imgAlt}
                             className="object-contain"
                             loading="lazy"
+                            aria-label="product-image"
                         />
                     </Link>
                 )}
