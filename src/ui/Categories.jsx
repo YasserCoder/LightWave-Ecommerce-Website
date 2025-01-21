@@ -162,6 +162,7 @@ const CategoryItem = ({
         <li
             className={`group relative flex justify-between h-full items-center gap-3 cursor-pointer whitespace-normal max-w-44 xs:max-w-[300px] sm:max-w-none`}
             onClick={handleLiClick}
+            data-testid={category}
         >
             <span>
                 <button
