@@ -1,7 +1,15 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { BrowserRouter as Router } from "react-router-dom";
+import { MemoryRouter as Router, useNavigate } from "react-router-dom";
+import { describe, expect, it, vi } from "vitest";
 import Categories from "../Categories";
-import { describe, expect, it } from "vitest";
+
+vi.mock("react-router-dom", async () => {
+    const original = await vi.importActual("react-router-dom");
+    return {
+        ...original,
+        useNavigate: vi.fn(),
+    };
+});
 
 const mockCats = {
     Electronics: { Phones: "", Laptops: "" },
@@ -40,8 +48,10 @@ describe("Categories Component", () => {
         expect(screen.queryByText("Laptops")).not.toBeInTheDocument();
     });
 
-    it.skip("navigates to category on click", () => {
-        const { container } = render(
+    it("navigates to category on click", () => {
+        let mockNavigate = vi.fn();
+        useNavigate.mockReturnValue(mockNavigate);
+        render(
             <Router>
                 <Categories cats={mockCats} />
             </Router>
@@ -53,10 +63,10 @@ describe("Categories Component", () => {
         const phonesButton = screen.getByText("Phones");
         fireEvent.click(phonesButton);
 
-        expect(container.innerHTML).toContain("/shop/Phones");
+        expect(mockNavigate).toHaveBeenCalledWith("Electronics/Phones");
     });
 
-    it.skip("handles click outside to close open items", () => {
+    it("handles click outside to close open items", () => {
         render(
             <Router>
                 <Categories cats={mockCats} />
@@ -68,7 +78,7 @@ describe("Categories Component", () => {
 
         expect(screen.getByText("Phones")).toBeInTheDocument();
 
-        fireEvent.mouseDown(document);
+        fireEvent.mouseDown(document.body);
 
         expect(screen.queryByText("Phones")).not.toBeInTheDocument();
     });
