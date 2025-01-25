@@ -40,7 +40,10 @@ function CartBody({
             {!cartItems.length && <EmptyCart />}
             {cartItems.length > 0 && (
                 <>
-                    <div className="flex flex-col gap-y-4 w-full ">
+                    <div
+                        className="flex flex-col gap-y-4 w-full"
+                        data-testid="cart-items"
+                    >
                         {cartItems.map((item, i) => {
                             return (
                                 <CartItem
@@ -191,6 +194,7 @@ function OrderInfo({ cartItems }) {
                             setDeliveryMethode(e.target.value);
                         }}
                         className="px-3 py-2 bg-secondary rounded-xl shadow-md cursor-pointer w-[200px] "
+                        data-testid="delivery-select"
                     >
                         <option value={"Stop Desk"}>Stop Desk</option>
                         <option value={"Door Step"}>Door Step</option>
@@ -266,7 +270,10 @@ function OrderInfo({ cartItems }) {
                 </div>
                 <div className="flex justify-between items-baseline">
                     <p className="font-semibold">{`Total :`}</p>
-                    <p className={`font-bold text-xl`}>{`$${calculateNewPrice(
+                    <p
+                        className={`font-bold text-xl`}
+                        data-testid="total-price"
+                    >{`$${calculateNewPrice(
                         totalPrice + deliveryCost - totalDiscounts,
                         0
                     )}`}</p>
@@ -290,7 +297,10 @@ function CartItem({ item, user, setUpdatedItems, isDeleting, deleteCartItem }) {
         setQte(item.quantity);
     }, [item.quantity]);
     return (
-        <div className="flex relative flex-col lg:flex-row gap-5 overflow-hidden border border-[#BDBDBD] p-6 rounded-md shadow-md">
+        <div
+            className="flex relative flex-col lg:flex-row gap-5 overflow-hidden border border-[#BDBDBD] p-6 rounded-md shadow-md"
+            data-testid={`cart-item-${item.product.id}`}
+        >
             <div className="flex gap-[10px] items-center">
                 <div className="flex justify-center items-center">
                     {item.product.imgs.length > 0 && (
@@ -355,6 +365,7 @@ function CartItem({ item, user, setUpdatedItems, isDeleting, deleteCartItem }) {
 
                 <button
                     className="absolute top-2 right-2 z-20 text-red-600 "
+                    data-testid="delete-btn"
                     disabled={isDeleting}
                     onClick={() => {
                         Swal.fire({
