@@ -7,8 +7,7 @@ export async function getCategories() {
         .order("id");
 
     if (error) {
-        console.error(error);
-        throw new Error("Categories could not be loaded");
+        throw new Error(error.message);
     }
 
     function findChildren(idParent) {
@@ -27,11 +26,9 @@ export async function getCategories() {
 
     let result = {};
 
-    for (const category of data) {
-        if (category.parentId === null) {
-            result[category.name] = findChildren(category.id);
-        }
-    }
+    data.filter((category) => category.parentId === null).map((category) => {
+        result[category.name] = findChildren(category.id);
+    });
 
     return result;
 }

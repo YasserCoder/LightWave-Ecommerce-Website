@@ -10,7 +10,9 @@ export default {
         updateUser: vi.fn(),
     },
     from: vi.fn(() => ({
-        insert: vi.fn(),
+        insert: vi.fn(() => ({
+            select: vi.fn(),
+        })),
         update: vi.fn(() => ({
             eq: vi.fn(),
         })),
