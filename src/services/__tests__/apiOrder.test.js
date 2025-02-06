@@ -29,39 +29,48 @@ const prodInfo = [
     },
 ];
 describe("addOrder function", () => {
-    it.only("should returns the Categories and subCategories in an object", async () => {
-        supabase.from.mockImplementationOnce(() => ({
-            insert: vi.fn().mockReturnValue({
-                select: vi.fn().mockReturnValue({
-                    single: vi.fn().mockResolvedValueOnce({
-                        data: { id: 12 },
-                        error: null,
-                    }),
+    it("should insert the order and the orderItems successfuly", async () => {
+        const mockInsertOrder = vi.fn().mockReturnValue({
+            select: vi.fn().mockReturnValue({
+                single: vi.fn().mockResolvedValueOnce({
+                    data: { id: 12 },
+                    error: null,
                 }),
             }),
-        }));
-        supabase.from.mockImplementationOnce(() => ({
-            insert: vi.fn().mockResolvedValueOnce({ error: null }),
-        }));
+        });
+
+        const mockInsertOrderItems = vi
+            .fn()
+            .mockResolvedValueOnce({ error: null });
+
+        supabase.from
+            .mockImplementationOnce(() => ({ insert: mockInsertOrder })) // For "order"
+            .mockImplementationOnce(() => ({ insert: mockInsertOrderItems })); // For "orderItems"
 
         await addOrder({ orderData, prodInfo });
 
         expect(supabase.from).toHaveBeenCalledWith("order");
         expect(supabase.from).toHaveBeenCalledWith("orderItems");
-        expect(supabase.from.insert).toHaveBeenLastCalledWith({ orderId: 1 });
+        expect(mockInsertOrder).toHaveBeenCalledWith([orderData]);
+        expect(mockInsertOrderItems).toHaveBeenCalledWith([
+            { orderId: 12, productId: 1, quantity: 2, price: 120 },
+            { orderId: 12, productId: 2, quantity: 3, price: 75 },
+        ]);
     });
-    // it("should throw an error if getCategories fails", async () => {
-    //     supabase.from.mockReturnValue({
-    //         select: vi.fn().mockReturnValue({
-    //             order: vi.fn().mockResolvedValueOnce({
-    //                 data: null,
-    //                 error: { message: "Categories could not be loaded" },
-    //             }),
-    //         }),
-    //     });
+    it("should throw an error if addOrder fails", async () => {
+        supabase.from.mockReturnValue({
+            insert: vi.fn().mockReturnValue({
+                select: vi.fn().mockReturnValue({
+                    single: vi.fn().mockResolvedValueOnce({
+                        data: null,
+                        error: { message: "Insert Order Failed" },
+                    }),
+                }),
+            }),
+        });
 
-    //     await expect(getCategories()).rejects.toThrow(
-    //         "Categories could not be loaded"
-    //     );
-    // });
+        await expect(addOrder({ orderData, prodInfo })).rejects.toThrow(
+            "Insert Order Failed"
+        );
+    });
 });
