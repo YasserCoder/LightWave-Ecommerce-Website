@@ -288,6 +288,7 @@ function SideBar({ section }) {
                                     : "border border-[#e5e5e5] md:border-none"
                             }`}
                             key={sec}
+                            data-testid={sec}
                         >
                             <NavLink
                                 to={`/about/${sec.split(" ").join("")}`}
