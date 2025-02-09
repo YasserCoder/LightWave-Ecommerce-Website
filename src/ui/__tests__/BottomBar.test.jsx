@@ -23,8 +23,8 @@ describe("BottomBar Component", () => {
         const shop = screen.getByText(/shop/i);
         expect(shop).toBeInTheDocument();
 
-        const checkbox = screen.queryByRole("checkbox");
-        expect(checkbox).not.toBeInTheDocument();
+        const menu = screen.queryByTestId("menu");
+        expect(menu).not.toBeInTheDocument();
 
         const searchBar = screen.queryByRole("textbox");
         expect(searchBar).not.toBeInTheDocument();
@@ -43,8 +43,8 @@ describe("BottomBar Component", () => {
         const shop = screen.queryByText(/shop/i);
         expect(shop).not.toBeInTheDocument();
 
-        const checkbox = screen.queryByRole("checkbox");
-        expect(checkbox).toBeInTheDocument();
+        const menu = screen.getByTestId("menu");
+        expect(menu).toBeInTheDocument();
 
         const searchBar = screen.getByRole("textbox");
         expect(searchBar).toBeInTheDocument();
@@ -59,10 +59,10 @@ describe("BottomBar Component", () => {
 
         expect(screen.queryByText(/home/i)).not.toBeInTheDocument();
 
-        const checkbox = screen.queryByRole("checkbox");
-        expect(checkbox).toBeInTheDocument();
+        const menu = screen.getByTestId("menu");
+        expect(menu).toBeInTheDocument();
 
-        fireEvent.click(checkbox);
+        fireEvent.click(menu);
 
         expect(screen.queryByText(/home/i)).toBeInTheDocument();
 

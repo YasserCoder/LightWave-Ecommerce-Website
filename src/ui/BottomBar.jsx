@@ -79,7 +79,7 @@ function MenuBar({ checked, handleChecked, setChecked }) {
             className={`w-fit ${checked ? "border border-b-0" : ""}`}
             ref={navRef}
         >
-            <label className={` ${styles.contain}`}>
+            <label className={` ${styles.contain}`} data-testid="menu">
                 <input
                     type="checkbox"
                     checked={checked}

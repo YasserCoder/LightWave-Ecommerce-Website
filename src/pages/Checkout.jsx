@@ -208,10 +208,10 @@ function Checkout() {
                     </div>
                     <div className="flex justify-between items-center">
                         <h6 className="capitalize font-semibold ">sub-total</h6>
-                        <p className="text-lg font-bold">{`$${calculateNewPrice(
-                            price,
-                            0
-                        )}`}</p>
+                        <p
+                            className="text-lg font-bold"
+                            data-testid="sub-total"
+                        >{`$${calculateNewPrice(price, 0)}`}</p>
                     </div>
                     <div className="h-[1px] w-full bg-[#BDBDBD]"></div>
                     <div className="flex flex-col gap-y-3">
@@ -244,7 +244,10 @@ function Checkout() {
                     <div className="h-[1px] w-full bg-[#BDBDBD]"></div>
                     <div className="flex justify-between items-center">
                         <h6 className="capitalize font-bold text-xl">total</h6>
-                        <p className="text-2xl font-bold text-bluegreen">
+                        <p
+                            className="text-2xl font-bold text-bluegreen"
+                            data-testid="total-amount"
+                        >
                             {`$${calculateNewPrice(totalAmount, 0)}`}
                         </p>
                     </div>
