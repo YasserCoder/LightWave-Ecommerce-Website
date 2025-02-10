@@ -74,7 +74,10 @@ function Anouncement({ title, latest, dest }) {
     if (isLoading) return <Loader />;
     return (
         <Section title={title}>
-            <div className="grid grid-cols-220 gap-4 mb-10 lg:mb-16">
+            <div
+                className="grid grid-cols-220 gap-4 mb-10 lg:mb-16"
+                data-testid={dest}
+            >
                 {products.map((prod) => {
                     return (
                         <ProdCard key={prod.id} latest={latest} id={prod.id} />
@@ -177,7 +180,7 @@ function Deal({ id }) {
     }
     if (isGetting) return <Loader />;
     return (
-        <div className="relative border">
+        <div className="relative border" data-testid={`deal-${id}`}>
             <img src={img} alt="announce" loading="lazy" />
             <button
                 className="absolute left-3 bottom-4 sm:bottom-8 sm:left-6 lg:bottom-10 xl:bottom-12 xl:left-9 text-lg xl:text-xl xl:font-semibold flex items-center font-semibold  gap-1  text-bluegreen hover:text-hovercol"

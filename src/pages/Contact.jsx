@@ -48,6 +48,7 @@ function Contact() {
 function Location() {
     return (
         <iframe
+            role="map"
             src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d25580.110781994143!2d3.071246290087893!3d36.73423535929684!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fad6795639515%3A0x4ba4b4c9d0a7e602!2sAlgiers!5e0!3m2!1sen!2sdz!4v1719164984223!5m2!1sen!2sdz"
             className="h-[300px] max-w-[500px] md:h-[400px] lg:h-[500px] w-full md:max-w-none rounded-lg md:-translate-x-10"
             allowFullScreen={true}

@@ -40,20 +40,10 @@ useProductDetails.mockReturnValue({
     },
 });
 
-vi.mock("../../hook/cart/useAddCartItem", () => ({
-    useAddCartItem: vi.fn(),
-}));
-vi.mock("../../hook/cart/useAddLocalCartItem", () => ({
-    useAddLocalCartItem: vi.fn(),
-}));
-
-vi.mock("../../hook/wishlist/useLikeItem", () => ({
-    useLikeItem: vi.fn(),
-}));
-
-vi.mock("../../hook/wishlist/useDislikeItem", () => ({
-    useDislikeItem: vi.fn(),
-}));
+vi.mock("../../hook/cart/useAddCartItem");
+vi.mock("../../hook/cart/useAddLocalCartItem");
+vi.mock("../../hook/wishlist/useLikeItem");
+vi.mock("../../hook/wishlist/useDislikeItem");
 
 describe("ProdCard Component", () => {
     let mockAddCartItem;
