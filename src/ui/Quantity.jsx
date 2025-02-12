@@ -1,6 +1,6 @@
 function Quantity({ qte, setQte, originalQte, id, action = () => {} }) {
     function handleChange(e) {
-        setQte(e.target.value);
+        setQte(+e.target.value);
 
         action((prevItems) => {
             return originalQte !== Number(e.target.value)

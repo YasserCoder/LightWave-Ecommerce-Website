@@ -67,6 +67,6 @@ describe("Quantity Component", () => {
         fireEvent.change(input, { target: { value: "7" } });
 
         // Verify setQte was called with the new value
-        expect(mockSetQte).toHaveBeenCalledWith("7");
+        expect(mockSetQte).toHaveBeenCalledWith(7);
     });
 });
