@@ -63,6 +63,7 @@ function Categories({ cats }) {
                 <ul
                     className={` text-grey overflow-x-clip w-full pb-5 text-[17px] whitespace-nowrap`}
                     ref={listRef}
+                    data-testid="categories"
                 >
                     <Swiper
                         slidesPerView={"auto"}
