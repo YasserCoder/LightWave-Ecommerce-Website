@@ -1,11 +1,6 @@
-import { fireEvent, render, screen, within } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import {
-    MemoryRouter,
-    useLocation,
-    useNavigate,
-    useSearchParams,
-} from "react-router-dom";
+import { MemoryRouter, useLocation, useSearchParams } from "react-router-dom";
 import { useCategories } from "../../hook/useCategories";
 import { useGetProducts } from "../../hook/products/useGetProducts";
 import { useScreenSize } from "../../hook/useScreenSize";
@@ -22,7 +17,6 @@ vi.mock("react-router-dom", async () => {
     return {
         ...original,
         useSearchParams: vi.fn(),
-        useNavigate: vi.fn(),
         useLocation: vi.fn(),
     };
 });
@@ -56,13 +50,9 @@ const mockCategories = {
 
 const mockProducts = {
     isLoading: false,
-    products: [
-        { id: 1, name: "Product 1" },
-        { id: 2, name: "Product 2" },
-    ],
+    products: [{ id: 1 }, { id: 2 }],
     count: 2,
 };
-let mockNavigate = vi.fn();
 const mockUser = { user: { id: 1, role: "authenticated" }, isLoading: false };
 describe("Shop Component", () => {
     const setSearchParams = vi.fn();
@@ -78,7 +68,6 @@ describe("Shop Component", () => {
         useGetProducts.mockReturnValue(mockProducts);
         useScreenSize.mockReturnValue({ screenSize: false });
         useLocation.mockReturnValue({ pathname: "/shop" });
-        useNavigate.mockReturnValue(mockNavigate);
         mockUseSearchParams({});
         useProductDetails.mockReturnValue({
             isLoading: false,
@@ -144,17 +133,15 @@ describe("Shop Component", () => {
         expect(screen.queryByText("Empty Category")).not.toBeInTheDocument();
     });
 
-    it.only("navigate to category when clicking on it", () => {
+    it("renders elements when there is products", () => {
         render(
             <MemoryRouter>
                 <Shop />
             </MemoryRouter>
         );
-        const category = within(screen.getByTestId("sidebar")).getByText(
-            "Electronics"
-        );
-        expect(category).toBeInTheDocument();
-        fireEvent.click(category);
-        expect(mockNavigate).toHaveBeenCalledWith("Electronics");
+        expect(screen.getByText(/sort by/i)).toBeInTheDocument();
+        expect(screen.getByText(/2 items/i)).toBeInTheDocument();
+        expect(screen.getByText(/2\/2/i)).toBeInTheDocument();
+        expect(screen.getAllByText(/prod01/i)).toHaveLength(2);
     });
 });

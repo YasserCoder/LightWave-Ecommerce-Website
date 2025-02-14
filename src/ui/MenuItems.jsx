@@ -86,6 +86,7 @@ const MenuItem = ({ label, children }) => {
                     <div
                         className="flex justify-between items-center cursor-pointer p-2 hover:bg-gray-300 rounded"
                         onClick={toggleOpen}
+                        data-testid={label}
                     >
                         <button
                             className="hover:text-bluegreen text-start"
